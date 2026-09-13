@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jefoze — Minecraft Plugin Developer & Tech Admin</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238fe0ff' stroke-width='1.8' stroke-linejoin='round'%3E%3Cpath d='M12 2.7 20 7.3v9.4L12 21.3 4 16.7V7.3L12 2.7Z'/%3E%3Cpath d='M12 12 20 7.3M12 12 4 7.3M12 12v9.3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+
+
+<div id="pre" aria-hidden="true">
+ <div class="pre-in">
+  <div class="pre-glow"></div>
+  <div class="pre-cubew"><div class="pre-cube"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+  <div class="pre-mark">
+   <span style="animation-delay:.05s">J</span><span style="animation-delay:.11s">e</span><span style="animation-delay:.17s">f</span><span style="animation-delay:.23s">o</span><span style="animation-delay:.29s">z</span><span style="animation-delay:.35s">e</span>
+  </div>
+  <div class="pre-term">
+   <div class="pre-ln" data-i="pre_l1">&gt; renderer ............... <b>ok</b></div>
+   <div class="pre-ln" data-i="pre_l2">&gt; voxel.field ............ <b>36 nodes</b></div>
+   <div class="pre-ln" data-i="pre_l3">&gt; i18n ................... <b>en · ru</b></div>
+   <div class="pre-ln" data-i="pre_l4">&gt; portfolio .............. <b>github</b></div>
+   <div class="pre-ln" data-i="pre_l5">&gt; handshake .............. <b>ready</b></div>
+   <div class="pre-ln pre-c" style="animation-delay:.08s">&gt;<span class="pre-caret"></span></div>
+  </div>
+  <div class="pre-load">
+   <div class="pre-bar"><i></i></div>
+   <span class="pre-pct" id="prePct">00%</span>
+  </div>
+  <span class="pre-sub" data-i="pre_sub">Jefoze — portfolio</span>
+ </div>
+</div>
+
+<div id="prog" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+
+<div id="sitePage">
+<header class="nav" id="nav">
+ <div class="container nav-in">
+  <a class="brand" href="#top" aria-label="Jefoze — home">
+   <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7 20 7.3v9.4L12 21.3 4 16.7V7.3L12 2.7Z"/><path d="M12 12 20 7.3M12 12 4 7.3M12 12v9.3"/></svg>
+   <span>Jefoze</span>
+  </a>
+  <nav class="nav-links">
+   <a href="#work" data-i="nav_works">Works</a>
+   <a href="#custom" data-i="nav_custom">Custom</a>
+   <a href="#about" data-i="nav_about">About</a>
+  </nav>
+  <div class="nav-right">
+   <div class="lsw" id="lsw" aria-label="Language">
+    <span class="lsw-th"></span>
+    <button type="button" data-l="en">EN</button>
+    <button type="button" data-l="ru">RU</button>
+   </div>
+   <button class="nav-icon" id="themeBtn" aria-label="Theme">
+    <svg class="ic ic-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+    <svg class="ic ic-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+   </button>
+   <button class="nav-icon" id="burger" aria-label="Menu">
+    <svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg>
+   </button>
+  </div>
+ </div>
+ <div id="mmenu">
+  <a href="#work" data-i="nav_works">Works</a>
+  <a href="#custom" data-i="nav_custom">Custom</a>
+  <a href="#about" data-i="nav_about">About</a>
+ </div>
+</header>
+
+<main>
+ <section class="hero" id="top">
+  <div class="hero-glow"></div>
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="container hero-in">
+   <span class="eyebrow" id="heroEb" data-i="hero_eyebrow">Minecraft Technical Admin · Plugin Developer</span>
+   <h1 class="wordmark" id="wordmark" aria-label="Jefoze"><span style="animation-delay:.08s" aria-hidden="true">J</span><span style="animation-delay:.135s" aria-hidden="true">e</span><span style="animation-delay:.19s" aria-hidden="true">f</span><span style="animation-delay:.245s" aria-hidden="true">o</span><span style="animation-delay:.3s" aria-hidden="true">z</span><span style="animation-delay:.355s" aria-hidden="true">e</span></h1>
+   <p class="hero-sub" data-i="hero_sub">Alexander, 16 — <b>Middle Minecraft Plugin Developer</b> &amp; Tech Admin, based in Uzbekistan. Systems that hold under load, code your admins can read.</p>
+   <div class="hero-cta">
+    <a class="btn btn-solid" href="#work"><span data-i="cta_works">View works</span>
+     <svg class="ic" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg>
+    </a>
+    <a class="btn btn-ghost" data-contact-link href="#contacts"><span data-i="cta_custom">Get in touch</span></a>
+   </div>
+  </div>
+  <div class="container hero-foot">
+   <span><i class="dot ok"></i><span data-i="hf_avail">Available for work</span></span>
+   <span class="hf-mid" data-i="hf_tz">Samarkand · UTC+5</span>
+   <span data-i="hf_est">Est. 2023</span>
+   <span class="scrolldn"><span data-i="hf_scroll">Scroll</span>
+    <svg class="ic" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10l5 5 5-5"/></svg>
+   </span>
+  </div>
+ </section>
+
+ <div class="mq" aria-hidden="true"><div class="mq-track" id="mqTrack">
+  <div class="mq-grp">
+   <span class="mq-item">Plugin architecture</span><i></i>
+   <span class="mq-item">Performance profiling</span><i></i>
+   <span class="mq-item">Paper · Spigot · Folia</span><i></i>
+   <span class="mq-item">Permission systems</span><i></i>
+   <span class="mq-item">Velocity networks</span><i></i>
+   <span class="mq-item">Forge &amp; Fabric mods</span><i></i>
+   <span class="mq-item">Server optimization</span><i></i>
+   <span class="mq-item">Clean APIs &amp; docs</span><i></i>
+  </div>
+  <div class="mq-grp">
+   <span class="mq-item">Plugin architecture</span><i></i>
+   <span class="mq-item">Performance profiling</span><i></i>
+   <span class="mq-item">Paper · Spigot · Folia</span><i></i>
+   <span class="mq-item">Permission systems</span><i></i>
+   <span class="mq-item">Velocity networks</span><i></i>
+   <span class="mq-item">Forge &amp; Fabric mods</span><i></i>
+   <span class="mq-item">Server optimization</span><i></i>
+   <span class="mq-item">Clean APIs &amp; docs</span><i></i>
+  </div>
+ </div></div>
+
+ <section id="about" class="section">
+  <div class="container">
+   <div class="sec-head" data-rev>
+    <span class="ghost" data-px2>01</span>
+    <div>
+     <span class="eyebrow"><em data-i="about_eb_n">01</em> <span data-i="about_eb">— About</span></span>
+     <h2 class="h2" data-i="about_h">Systems-first developer.<br>Server-side to the core.</h2>
+    </div>
+    <p class="sec-side" data-i="about_side">One person, accountable end to end — from the first line of scope to the last optimization pass.</p>
+   </div>
+   <div class="about-grid">
+    <div class="about-txt" data-rev>
+     <p data-i="about_p1">I’m Alexander — a <b>middle-level plugin developer and technical administrator</b> from Uzbekistan. For the past years I’ve been building and maintaining the systems Minecraft servers run on: permission architecture, optimization work, and plugins written for the way owners actually use them.</p>
+     <p data-i="about_p2">Everything I ship comes with readable source, sane configuration and documentation your next admin won’t have to fight. <b>Middle-level by title — production-minded by habit.</b></p>
+     <div class="stats" data-rev data-countg id="statsRow"></div>
+    </div>
+   </div>
+  </div>
+ </section>
+
+ <section id="work" class="section">
+  <div class="container">
+   <div class="sec-head" data-rev>
+    <span class="ghost" data-px2>02</span>
+    <div>
+     <span class="eyebrow"><em data-i="works_eb_n">02</em> <span data-i="works_eb">— Works</span></span>
+     <h2 class="h2" data-i="works_h">Selected works,<br>open on GitHub.</h2>
+    </div>
+    <p class="sec-side" data-i="works_side">Everything is public: source, documentation and releases live on GitHub. Grab it, fork it, ship it.</p>
+   </div>
+   <div class="store" id="worksGrid" data-rev-group></div>
+  </div>
+ </section>
+
+ <section id="custom" class="section">
+  <div class="container">
+   <div class="cta-band" data-rev>
+    <span class="ghost" data-px2>03</span>
+    <span class="eyebrow"><em data-i="custom_eb_n">03</em> <span data-i="custom_eb">— Custom work</span></span>
+    <h2 class="h2" data-i="custom_h">Have an idea that<br>doesn’t exist yet?</h2>
+    <p data-i="custom_p">Bespoke plugins and mods for servers that outgrew the market. From lightweight utilities to full gameplay systems — scoped, quoted and delivered by one person who answers for the result.</p>
+    <a class="btn btn-solid" data-contact-link href="#contacts"><span data-i="custom_btn">Get in touch</span>
+     <svg class="ic" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12h15M13.5 6l6 6-6 6"/></svg>
+    </a>
+   </div>
+   <div class="steps" data-rev>
+    <div class="step"><span class="n">01 /</span><h4 data-i="s1h">Describe</h4><p data-i="s1p">Send the idea, budget and deadline. No formal spec required — an honest paragraph is enough.</p></div>
+    <div class="step"><span class="n">02 /</span><h4 data-i="s2h">Scope</h4><p data-i="s2p">I reply with a fixed quote, a timeline and a technical plan — usually within a day.</p></div>
+    <div class="step"><span class="n">03 /</span><h4 data-i="s3h">Build</h4><p data-i="s3p">Development, testing on a mirror of your server, delivery with source and documentation.</p></div>
+   </div>
+  </div>
+ </section>
+</main>
+
+<footer>
+ <div class="container foot-top">
+  <div>
+   <div class="brand">
+    <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7 20 7.3v9.4L12 21.3 4 16.7V7.3L12 2.7Z"/><path d="M12 12 20 7.3M12 12 4 7.3M12 12v9.3"/></svg>
+    <span>Jefoze</span>
+   </div>
+   <p class="fsub" data-i="f_sub">Minecraft technical administration &amp; plugin development. Built in Samarkand, shipped worldwide.</p>
+  </div>
+  <div class="fcols">
+   <div class="fcol"><h6 data-i="f_site">Site</h6>
+    <a href="#work" data-i="f_works">Works</a><a href="#custom" data-i="f_custom_l">Custom work</a><a href="#about" data-i="f_about_l">About</a></div>
+   <div class="fcol" id="contacts"><h6 data-i="f_contacts">Contacts</h6><div id="contactCol"></div></div>
+   <div class="fcol"><h6 data-i="f_meta">Meta</h6>
+    <a href="#top" data-i="f_top">Back to top</a></div>
+  </div>
+ </div>
+ <div class="container foot-bot">
+  <span data-i="f_copy">© 2026 Jefoze — Uzbekistan</span>
+ </div>
+</footer>
+</div>
+
+<div id="adminPage" class="hidden"><div id="admRoot"></div></div>
+
+<div id="toasts"></div>
+
+<script src="./src/counter.js"></script>
+</body>
+</html>
