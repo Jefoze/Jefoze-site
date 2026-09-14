@@ -12,9 +12,13 @@
     "test": "node --test"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
     "vite": "^8.3.0"
   },
   "engines": {
-    "node": ">=24.0.0"
+    "node": "24.x"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.1.0"
   }
 }

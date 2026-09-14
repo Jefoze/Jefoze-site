@@ -477,8 +477,8 @@ async function api(path, method = 'GET', value) {
   const response = await fetch('/api/' + path, { method, credentials: 'same-origin', cache: 'no-store',
     headers: value === undefined ? {} : { 'Content-Type': 'application/json' },
     body: value === undefined ? undefined : JSON.stringify(value), signal: AbortSignal.timeout(20000) });
-  const result = await response.json();
-  if (!response.ok) throw new Error(result.error || 'Server unavailable');
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(result.error || (response.status === 413 ? 'Image or content is too large' : 'Server unavailable'));
   return result;
 }
 function acceptContent(result) { cache = result.data; revisions = result.revisions; loadAll(); }
@@ -508,9 +508,9 @@ async function refreshContent() {
   if (refreshing || saving || (location.hash === '#admin' && SS.get() === '1')) return;
   refreshing = true;
   try {
-    const result = await api('content');
-    if (JSON.stringify(revisions) !== JSON.stringify(result.revisions)) {
-      acceptContent(result);
+    const latest = await api('revisions');
+    if (Object.keys(latest).some(key => revisions[key] !== latest[key])) {
+      acceptContent(await api('content'));
       renderPublic();
     }
     $('#connectionNotice')?.remove();
@@ -1468,18 +1468,25 @@ function pickImage(cb) {
     const rd = new FileReader();
     rd.onload = () => {
       const img = new Image();
-      img.onload = () => {
+      img.onload = async () => {
         const max = 1400;
-        const sc = Math.min(1, max / img.width);
+        const sc = Math.min(1, max / Math.max(img.width, img.height));
         const c = document.createElement('canvas');
         c.width = Math.max(1, (img.width * sc) | 0);
         c.height = Math.max(1, (img.height * sc) | 0);
         c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-        cb(c.toDataURL('image/jpeg', .82));
+        document.body.classList.add('saving');
+        try {
+          const { url } = await api('images', 'POST', { data: c.toDataURL('image/jpeg', .82) });
+          await cb(url);
+        } catch (error) { toast(esc(error.message), 'x'); }
+        finally { document.body.classList.remove('saving'); }
       };
       img.src = rd.result;
+      img.onerror = () => toast(LANG === 'ru' ? 'Не удалось открыть изображение' : 'Could not open image', 'x');
     };
     rd.readAsDataURL(f);
+    rd.onerror = () => toast(LANG === 'ru' ? 'Не удалось прочитать файл' : 'Could not read file', 'x');
   };
 
   inp.click();
@@ -1833,10 +1840,9 @@ async function init() {
   safe(wireEvents);
   safe(route);
 
-  const events = new EventSource('/api/events');
-  events.onmessage = refreshContent;
-  events.onerror = showConnectionError;
-  setInterval(refreshContent, 30000);
+  addEventListener('focus', refreshContent);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) refreshContent(); });
+  setInterval(() => { if (!document.hidden) refreshContent(); }, 10000);
 }
 
 try {

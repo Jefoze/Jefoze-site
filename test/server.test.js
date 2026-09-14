@@ -10,7 +10,7 @@ test('shared content, authentication, conflicts, validation and persistence', as
   const dir = await mkdtemp(join(tmpdir(), 'jefoze-test-'));
   let child, base, cookie;
   async function start() {
-    child = spawn(process.execPath, ['server/index.js'], { env: { ...process.env, DATA_DIR: dir, PORT: '0', HOST: '127.0.0.1', NODE_ENV: 'test', PUBLIC_ORIGIN: '', ADMIN_PASSWORD: 'test-password-12345' }, stdio: ['ignore', 'pipe', 'pipe'] });
+    child = spawn(process.execPath, ['server/index.js'], { env: { ...process.env, DATABASE_URL: '', POSTGRES_URL: '', VERCEL: '', DATA_DIR: dir, PORT: '0', HOST: '127.0.0.1', NODE_ENV: 'test', PUBLIC_ORIGIN: '', ADMIN_PASSWORD: 'test-password-12345' }, stdio: ['ignore', 'pipe', 'pipe'] });
     base = await new Promise((resolve, reject) => {
       let output = '';
       const timer = setTimeout(() => reject(new Error('Startup timeout')), 10000);
@@ -33,14 +33,9 @@ test('shared content, authentication, conflicts, validation and persistence', as
     assert.match(login.headers.get('set-cookie'), /HttpOnly/);
     assert.equal((await (await request('session')).json()).authenticated, true);
     assert.equal((await request('content/works', 'PUT', {value: [], revision: 1}, true, {Origin: 'https://evil.example'})).status, 403);
-    const controller = new AbortController();
-    const stream = await fetch(base + '/api/events', {signal: controller.signal});
-    const reader = stream.body.getReader();
-    await reader.read();
     const saved = await request('content/works', 'PUT', {value: [], revision: initial.revisions.works});
     assert.equal(saved.status, 200);
-    assert.match(new TextDecoder().decode((await reader.read()).value), /changed/);
-    controller.abort();
+    assert.equal((await (await request('revisions')).json()).works, 2);
     assert.deepEqual((await (await request('content', 'GET', undefined, false)).json()).data.works, []);
     assert.equal((await request('content/works', 'PUT', {value: initial.data.works, revision: 1})).status, 409);
     const invalid = structuredClone(initial.data.contacts); invalid[0].url = 'javascript:alert(1)';
@@ -53,7 +48,15 @@ test('shared content, authentication, conflicts, validation and persistence', as
     assert.equal((await request('content/works', 'PUT', {value: [], revision: 4})).status, 200);
     const contacts = [{id: 'contact', label: 'Mail', value: 'test@example.com', url: 'mailto:test@example.com'}];
     assert.equal((await request('content/contacts', 'PUT', {value: contacts, revision: 1})).status, 200);
-    const site = {...initial.data.site, heroSrc: 'data:image/png;base64,aGVsbG8=', stats: [{v:100,suf:'+'},{v:8,suf:''},{v:12,suf:'h'}]};
+    const imageData = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aZWQAAAAASUVORK5CYII=';
+    assert.equal((await request('images', 'POST', {data: imageData}, false)).status, 401);
+    const upload = await request('images', 'POST', {data: imageData});
+    assert.equal(upload.status, 200);
+    const imageUrl = (await upload.json()).url;
+    const downloaded = await fetch(base + imageUrl);
+    assert.equal(downloaded.headers.get('content-type'), 'image/png');
+    assert.deepEqual(Buffer.from(await downloaded.arrayBuffer()), Buffer.from(imageData.split(',')[1], 'base64'));
+    const site = {...initial.data.site, heroSrc: imageUrl, stats: [{v:100,suf:'+'},{v:8,suf:''},{v:12,suf:'h'}]};
     assert.equal((await request('content/site', 'PUT', {value: site, revision: 1})).status, 200);
     const shared = await (await request('content', 'GET', undefined, false)).json();
     assert.deepEqual(shared.data.contacts, contacts);
