@@ -46,12 +46,14 @@ const picture = s => str(s, BODY_LIMIT - 100) && /^data:image\/(jpeg|png|webp);b
 const imageUrl = s => str(s, 100) && /^\/api\/images\/[a-f0-9]{64}$/.test(s);
 const seed = n => Number.isSafeInteger(n) && n >= 0;
 const img = v => v && typeof v === 'object' && (v.src ? imageUrl(v.src) : seed(v.seed));
+const description = value => str(value) || (value && typeof value === 'object' && !Array.isArray(value) &&
+  Object.keys(value).length > 0 && Object.entries(value).every(([language, text]) => ['en', 'ru'].includes(language) && str(text)));
 export function validate(key, value) {
   let valid = false;
   if (key === 'works' || key === 'contacts') {
     valid = Array.isArray(value) && value.length <= 200 && new Set(value.map(x => x?.id)).size === value.length && value.every(x =>
       x && str(x.id, 80) && /^[a-zA-Z0-9_-]{1,80}$/.test(x.id) && (key === 'works'
-        ? str(x.name, 120) && x.name.length >= 2 && str(x.cat, 100) && link(x.github) && img(x.img) && (str(x.short) || (x.short && str(x.short.en) && str(x.short.ru)))
+        ? str(x.name, 120) && x.name.length >= 2 && str(x.cat, 100) && link(x.github) && img(x.img) && description(x.short)
         : str(x.label, 120) && x.label.length > 0 && str(x.value, 300) && x.value.length > 0 && (x.url === '' || link(x.url, true))));
   } else if (key === 'site') {
     valid = value && Object.keys(value).every(k => ['heroSeed', 'aboutSeed', 'heroSrc', 'aboutSrc', 'stats'].includes(k)) &&

@@ -1,3 +1,5 @@
+import { updateWorkDraft } from './work-data.js';
+
 document.documentElement.classList.add('js');
 
 setTimeout(function () {
@@ -427,9 +429,8 @@ const tf = (k, v) => {
   return s;
 };
 
-const loc = v => v == null ? '' : (typeof v === 'object' ? v[LANG] : (v || ''));
+const loc = v => v == null ? '' : (typeof v === 'object' ? (v[LANG] || v.en || v.ru || '') : (v || ''));
 
-const setL = (o, val) => Object.assign({}, (typeof o === 'object' && o) || {}, { [LANG]: val });
 
 let preDone = false;
 
@@ -1173,14 +1174,14 @@ function renderWorkForm(w) {
   b.querySelector('#wfCancel').onclick = () => { b.innerHTML = ''; wfWork = null; };
 
   b.querySelector('#wfRe').onclick = () => {
-    wfWork = Object.assign({}, wfWork, wfCollect());
+    wfWork = updateWorkDraft(wfWork, wfCollect(), LANG);
     wfWork.img = { seed: rndSeed() };
     renderWorkForm(wfWork);
   };
 
   b.querySelector('#wfUp').onclick = () => {
     pickImage(async src => {
-      wfWork = Object.assign({}, wfWork, wfCollect());
+      wfWork = updateWorkDraft(wfWork, wfCollect(), LANG);
       wfWork.img = { src };
       renderWorkForm(wfWork);
     });
@@ -1216,11 +1217,7 @@ async function saveWork() {
   if (!/^https?:\/\/.+/i.test(d.github)) { err('wgh', t('e_wgh')); ok = false; }
   if (!ok) return;
 
-  wfWork = Object.assign({}, wfWork);
-  wfWork.name = d.name;
-  wfWork.cat = d.cat;
-  wfWork.github = d.github;
-  wfWork.short = setL(wfWork.short, d.short);
+  wfWork = updateWorkDraft(wfWork, d, LANG);
 
   const i = S.works.findIndex(x => x.id === wfWork.id);
   if (i >= 0) S.works[i] = wfWork;

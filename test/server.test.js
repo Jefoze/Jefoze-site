@@ -53,6 +53,10 @@ test('shared content, authentication, conflicts, validation and persistence', as
     const upload = await request('images', 'POST', {data: imageData});
     assert.equal(upload.status, 200);
     const imageUrl = (await upload.json()).url;
+    const imageWork = {...work, img:{src:imageUrl}, short:{ru:'Безопасный обмен между игроками'}};
+    assert.equal((await request('content/works', 'PUT', {value:[imageWork], revision:5})).status, 200);
+    assert.deepEqual((await (await request('content', 'GET', undefined, false)).json()).data.works, [imageWork]);
+    assert.equal((await request('content/works', 'PUT', {value:[], revision:6})).status, 200);
     const downloaded = await fetch(base + imageUrl);
     assert.equal(downloaded.headers.get('content-type'), 'image/png');
     assert.deepEqual(Buffer.from(await downloaded.arrayBuffer()), Buffer.from(imageData.split(',')[1], 'base64'));
