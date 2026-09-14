@@ -29,6 +29,22 @@
   --ease: cubic-bezier(.22, 1, .36, 1);
 }
 
+button:disabled { opacity: .5; cursor: wait; }
+.saving #adminPage { pointer-events: none; opacity: .75; }
+.saving { cursor: progress; }
+.connection-notice {
+  position: fixed; bottom: 20px; left: 20px; right: 20px;
+  width: fit-content; max-width: calc(100% - 40px); z-index: 950;
+  padding: 14px 20px; background: var(--panel); color: var(--ice);
+  border: 1px solid var(--line2); border-radius: 12px;
+  font-size: 13px; box-shadow: var(--shadow2);
+}
+.works-empty { color: var(--mut); padding: 32px; border: 1px dashed var(--line2); border-radius: 18px; }
+@media (max-width: 700px) {
+  .atable { display: block; overflow-x: auto; }
+  .ad-top { height: auto; min-height: 66px; padding-block: 10px; flex-wrap: wrap; }
+}
+
 [data-theme='light'] {
   --bg: #f2f3f5;
   --bg2: #eceff1;

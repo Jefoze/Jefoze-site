@@ -1,10 +1,4 @@
-try {
-  document.documentElement.classList.add('js');
-  var th = localStorage.getItem('jz_theme');
-  if (th) document.documentElement.dataset.theme = th;
-  var lg = localStorage.getItem('jz_lang');
-  if (lg) document.documentElement.dataset.lang = lg;
-} catch (e) {}
+document.documentElement.classList.add('js');
 
 setTimeout(function () {
   try {
@@ -55,40 +49,7 @@ const rndSeed = () => 1 + ((Math.random() * 99999) | 0);
 const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const safe = fn => { try { fn(); } catch (e) { console.error('[jz]', e); } };
 
-let MEMMODE = false;
-
-const LS = (() => {
-  try {
-    const k = '__jz_tst';
-    localStorage.setItem(k, '1');
-    localStorage.removeItem(k);
-    return localStorage;
-  } catch (e) {
-    MEMMODE = true;
-    const m = {};
-    return {
-      getItem: k => (k in m ? m[k] : null),
-      setItem: (k, v) => { m[k] = String(v); },
-      removeItem: k => { delete m[k]; }
-    };
-  }
-})();
-
-const SS = {
-  mem: null,
-  get() {
-    try { return sessionStorage.getItem('jz_adm') || this.mem; }
-    catch (e) { return this.mem; }
-  },
-  set(v) {
-    try { sessionStorage.setItem('jz_adm', v); } catch (e) {}
-    this.mem = v;
-  },
-  del() {
-    try { sessionStorage.removeItem('jz_adm'); } catch (e) {}
-    this.mem = null;
-  }
-};
+const SS = { mem: null, get() { return this.mem; }, set(v) { this.mem = v; }, del() { this.mem = null; } };
 
 const I = {
   cube: '<path d="M12 2.7 20 7.3v9.4L12 21.3 4 16.7V7.3L12 2.7Z"/><path d="M12 12 20 7.3M12 12 4 7.3M12 12v9.3"/>',
@@ -121,7 +82,6 @@ function toast(msg, icn = 'check') {
 }
 
 let LANG = document.documentElement.dataset.lang
-  || LS.getItem('jz_lang')
   || (((navigator.language || '').toLowerCase().indexOf('ru') === 0) ? 'ru' : 'en');
 
 let THEME = document.documentElement.dataset.theme || 'dark';
@@ -208,7 +168,7 @@ const T = {
     ad_login_ph: 'Password',
     ad_login: 'Unlock',
     ad_wrong: 'Wrong password',
-    ad_hint: 'The password is stored as a hash · session lasts until the tab closes',
+    ad_hint: 'Secure session · 12 hours',
     ad_ok: 'Console unlocked',
 
     tab_works: 'Works',
@@ -279,10 +239,10 @@ const T = {
     s_new2: 'Repeat new password',
     s_save: 'Change password',
     e_scur: 'Wrong current password',
-    e_snew: 'At least 4 characters',
+    e_snew: 'At least 12 characters',
     e_smatch: 'Passwords don’t match',
     t_pass: 'Password updated',
-    s_note: 'The password never leaves this browser and is stored only as a hash — you can change it here at any time. If you forget it, clear the site data to reset to the factory one.',
+    s_note: 'Your password is verified on the server. Changing it signs out other sessions.',
 
     t_memmode: 'Storage unavailable — data lives until the page reloads',
     th_light: 'Light theme',
@@ -370,7 +330,7 @@ const T = {
     ad_login_ph: 'Пароль',
     ad_login: 'Войти',
     ad_wrong: 'Неверный пароль',
-    ad_hint: 'Пароль хранится в виде хеша · сессия живёт до закрытия вкладки',
+    ad_hint: 'Защищённая сессия · 12 часов',
     ad_ok: 'Панель разблокирована',
 
     tab_works: 'Работы',
@@ -441,10 +401,10 @@ const T = {
     s_new2: 'Повторите новый пароль',
     s_save: 'Сменить пароль',
     e_scur: 'Неверный текущий пароль',
-    e_snew: 'Минимум 4 символа',
+    e_snew: 'Минимум 12 символов',
     e_smatch: 'Пароли не совпадают',
     t_pass: 'Пароль обновлён',
-    s_note: 'Пароль не покидает браузер и хранится только в виде хеша — сменить можно здесь в любой момент. Если забудете — очистите данные сайта, вернётся заводской пароль.',
+    s_note: 'Пароль проверяется на сервере. При смене пароля остальные сессии завершаются.',
 
     t_memmode: 'Хранилище недоступно — данные живут до перезагрузки',
     th_light: 'Светлая тема',
@@ -510,97 +470,61 @@ setTimeout(finishPre, 2100);
 if (RM) setTimeout(finishPre, 350);
 initPrePct();
 
+let cache = { works: [], contacts: [], site: {} };
+let revisions = {};
+let saving = false;
+async function api(path, method = 'GET', value) {
+  const response = await fetch('/api/' + path, { method, credentials: 'same-origin', cache: 'no-store',
+    headers: value === undefined ? {} : { 'Content-Type': 'application/json' },
+    body: value === undefined ? undefined : JSON.stringify(value), signal: AbortSignal.timeout(20000) });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.error || 'Server unavailable');
+  return result;
+}
+function acceptContent(result) { cache = result.data; revisions = result.revisions; loadAll(); }
 const DB = {
-  get(k, f) {
+  get(k, fallback) { return structuredClone(cache[k] ?? fallback); },
+  async set(k, value) {
+    if (saving) { loadAll(); return false; }
+    saving = true;
+    document.body.classList.add('saving');
     try {
-      const v = LS.getItem('jz_' + k);
-      return v ? JSON.parse(v) : f;
-    } catch (e) { return f; }
-  },
-  set(k, v) {
-    try {
-      LS.setItem('jz_' + k, JSON.stringify(v));
+      acceptContent(await api('content/' + k, 'PUT', { value, revision: revisions[k] }));
       return true;
-    } catch (e) {
-      toast(t('t_memmode'), 'img');
+    } catch (error) {
+      loadAll();
+      toast(esc(error.message), 'x');
+      try { acceptContent(await api('content')); } catch {}
+      renderPublic();
       return false;
+    } finally { saving = false; document.body.classList.remove('saving'); }
+  }
+};
+function renderPublic() {
+  [renderWorks, renderContacts, renderStats, applyAbout, applyHero].forEach(fn => safe(fn));
+}
+let refreshing = false;
+async function refreshContent() {
+  if (refreshing || saving || (location.hash === '#admin' && SS.get() === '1')) return;
+  refreshing = true;
+  try {
+    const result = await api('content');
+    if (JSON.stringify(revisions) !== JSON.stringify(result.revisions)) {
+      acceptContent(result);
+      renderPublic();
     }
+    $('#connectionNotice')?.remove();
   }
-};
-
-const hash = s => {
-  let h = 5381;
-  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0;
-  return String(h);
-};
-
-const lsSet = (k, v) => { try { LS.setItem(k, v); } catch (e) {} };
-
-function seed() {
-  if (!DB.get('v4', null)) {
-    ['products', 'deals', 'cart', 'chats', 'orders', 'users', 'session'].forEach(k => {
-      try { LS.removeItem('jz_' + k); } catch (e) {}
-    });
-    DB.set('v4', 1);
-  }
-
-  if (!DB.get('works', null)) {
-    DB.set('works', [
-      {
-        id: 'gribcam',
-        name: 'GribCam',
-        cat: 'Plugin',
-        github: 'https://github.com/jefoze/GribCam',
-        short: {
-          en: 'Advanced cinematic camera system for trailers, replays and spectator feeds.',
-          ru: 'Продвинутая система кинематографических камер для трейлеров, реплеев и наблюдения.'
-        },
-        img: { seed: 11 }
-      },
-      {
-        id: 'gcosmetics',
-        name: 'GCosmetics',
-        cat: 'Plugin',
-        github: 'https://github.com/jefoze/GCosmetics',
-        short: {
-          en: 'Visual cosmetics across head, back and hand slots — with a built-in GUI editor.',
-          ru: 'Визуальная косметика для слотов голова, спина и руки — со встроенным GUI-редактором.'
-        },
-        img: { seed: 21 }
-      },
-      {
-        id: 'jefguard',
-        name: 'JefGuard',
-        cat: 'Utility',
-        github: 'https://github.com/jefoze/JefGuard',
-        short: {
-          en: 'Lightweight performance guard: hotspot profiling and safe exploit patching.',
-          ru: 'Лёгкий страж производительности: профилирование точек нагрузки и безопасное закрытие эксплойтов.'
-        },
-        img: { seed: 31 }
-      },
-      {
-        id: 'jefutils',
-        name: 'JefUtils',
-        cat: 'Utility',
-        github: 'https://github.com/jefoze/JefUtils',
-        short: {
-          en: 'A bundle of small QoL commands and tools every admin actually uses.',
-          ru: 'Набор небольших QoL-команд и инструментов, которыми реально пользуются админы.'
-        },
-        img: { seed: 41 }
-      }
-    ]);
-  }
-
-  if (!DB.get('contacts', null)) {
-    DB.set('contacts', [
-      { id: 'tg', label: 'Telegram', value: '@jefoze', url: 'https://t.me/jefoze' },
-      { id: 'mail', label: 'Email', value: 'hello@jefoze.dev', url: 'mailto:hello@jefoze.dev' }
-    ]);
-  }
-
-  if (!DB.get('adminpass', null)) DB.set('adminpass', '-1340685460');
+  catch { showConnectionError(); }
+  finally { refreshing = false; }
+}
+function showConnectionError() {
+  if ($('#connectionNotice')) return;
+  const notice = el('div', 'connection-notice');
+  notice.id = 'connectionNotice';
+  notice.setAttribute('role', 'status');
+  notice.textContent = LANG === 'ru' ? 'Нет связи с сервером. Повторяем подключение…' : 'Server unavailable. Reconnecting…';
+  document.body.appendChild(notice);
 }
 
 const S = { works: [], contacts: [], site: {} };
@@ -936,6 +860,7 @@ function renderWorks() {
     const g = $('#worksGrid');
     g.innerHTML = '';
     const list = S.works;
+    if (!list.length) g.appendChild(el('p', 'works-empty c12', t('w_empty')));
     list.forEach((w, i) => g.appendChild(workCard(w, i, list.length)));
     [...g.children].forEach((c, i) => c.style.transitionDelay = Math.min(i * 90, 480) + 'ms');
   });
@@ -1013,7 +938,7 @@ function applyAbout() {
 }
 
 function applyHero() {
-  const h = $('#heroImgLayer');
+  let h = $('#heroImgLayer');
   if (S.site.heroSrc) {
     if (!h) {
       const im = el('img');
@@ -1021,6 +946,7 @@ function applyHero() {
       im.className = 'hero-img';
       im.alt = '';
       $('#top').prepend(im);
+      h = im;
     }
     h.src = S.site.heroSrc;
   } else if (h) {
@@ -1063,24 +989,28 @@ function renderAdminGate() {
       <a class="gate-back" href="#top">← ${t('ad_back')}</a>
     </div>`;
 
-  r.querySelector('#gateForm').onsubmit = e => {
+  r.querySelector('#gateForm').onsubmit = async e => {
     e.preventDefault();
     const v = e.target.elements['pass'].value;
     const fl = r.querySelector('[data-f=pass]');
     fl.classList.remove('err');
 
-    if (hash(v) === DB.get('adminpass', '-1340685460')) {
+    const submit = e.target.querySelector('button');
+    submit.disabled = true;
+    try {
+      await api('login', 'POST', { password: v });
+      acceptContent(await api('content'));
       SS.set('1');
       toast(t('ad_ok'), 'check');
       renderAdminPanel();
-    } else {
+    } catch (error) {
       fl.classList.add('err');
-      fl.querySelector('.ferr').textContent = t('ad_wrong');
+      fl.querySelector('.ferr').textContent = error.message;
       const gb = r.querySelector('#gateBox');
       gb.classList.remove('err');
       void gb.offsetWidth;
       gb.classList.add('err');
-    }
+    } finally { submit.disabled = false; }
   };
 }
 
@@ -1110,7 +1040,7 @@ function renderAdminPanel() {
     </div>`;
 
   r.querySelectorAll('.ad-tab').forEach(b => b.onclick = () => { adTab = b.dataset.t; renderAdminPanel(); });
-  r.querySelector('#adOut').onclick = () => { SS.del(); renderAdminGate(); };
+  r.querySelector('#adOut').onclick = async () => { try { await api('logout', 'POST', {}); SS.del(); renderAdminGate(); } catch (error) { toast(esc(error.message), 'x'); } };
   adminBody();
 }
 
@@ -1167,7 +1097,7 @@ function admWorks() {
 
   b.querySelectorAll('[data-del]').forEach(btn => {
     let armed = false;
-    btn.onclick = () => {
+    btn.onclick = async () => {
       if (!armed) {
         armed = true;
         btn.classList.add('danger');
@@ -1180,7 +1110,7 @@ function admWorks() {
         return;
       }
       S.works = S.works.filter(v => v.id !== btn.dataset.del);
-      DB.set('works', S.works);
+      if (!await DB.set('works', S.works)) return;
       renderWorks();
       admWorks();
       toast(t('t_w_removed'), 'trash');
@@ -1249,7 +1179,7 @@ function renderWorkForm(w) {
   };
 
   b.querySelector('#wfUp').onclick = () => {
-    pickImage(src => {
+    pickImage(async src => {
       wfWork = Object.assign({}, wfWork, wfCollect());
       wfWork.img = { src };
       renderWorkForm(wfWork);
@@ -1269,7 +1199,7 @@ function wfCollect() {
   };
 }
 
-function saveWork() {
+async function saveWork() {
   const f = $('#workForm');
   const d = wfCollect();
 
@@ -1296,7 +1226,7 @@ function saveWork() {
   if (i >= 0) S.works[i] = wfWork;
   else S.works.push(wfWork);
 
-  DB.set('works', S.works);
+  if (!await DB.set('works', S.works)) return;
   renderWorks();
   admWorks();
   toast(i >= 0 ? t('t_w_updated') : t('t_w_added'));
@@ -1339,7 +1269,7 @@ function admContacts() {
 
   b.querySelectorAll('[data-del]').forEach(btn => {
     let armed = false;
-    btn.onclick = () => {
+    btn.onclick = async () => {
       if (!armed) {
         armed = true;
         btn.classList.add('danger');
@@ -1352,7 +1282,7 @@ function admContacts() {
         return;
       }
       S.contacts = S.contacts.filter(v => v.id !== btn.dataset.del);
-      DB.set('contacts', S.contacts);
+      if (!await DB.set('contacts', S.contacts)) return;
       renderContacts();
       admContacts();
       toast(t('t_c_removed'), 'trash');
@@ -1396,7 +1326,7 @@ function renderContactForm(c) {
   b.querySelector('#cfSave').onclick = saveContact;
 }
 
-function saveContact() {
+async function saveContact() {
   const f = $('#contactForm');
   const d = {
     label: f.querySelector('#cfLabel').value.trim(),
@@ -1423,7 +1353,7 @@ function saveContact() {
   if (i >= 0) S.contacts[i] = cfWork;
   else S.contacts.push(cfWork);
 
-  DB.set('contacts', S.contacts);
+  if (!await DB.set('contacts', S.contacts)) return;
   renderContacts();
   admContacts();
   toast(i >= 0 ? t('t_c_updated') : t('t_c_added'));
@@ -1452,7 +1382,7 @@ function admStats() {
       </div>
     </div>`;
 
-  b.querySelector('#stSave').onclick = () => {
+  b.querySelector('#stSave').onclick = async () => {
     b.querySelectorAll('.fld').forEach(x => x.classList.remove('err'));
 
     const err = (k, m) => {
@@ -1475,7 +1405,7 @@ function admStats() {
       suf: b.querySelector('#stS' + i).value.trim().slice(0, 3)
     }));
 
-    DB.set('site', S.site);
+    if (!await DB.set('site', S.site)) return;
     renderStats();
     toast(t('t_stats'), 'check');
   };
@@ -1517,13 +1447,13 @@ function admImages() {
       )}
     </div>`;
 
-  b.querySelectorAll('[data-c]').forEach(btn => btn.onclick = () => {
+  b.querySelectorAll('[data-c]').forEach(btn => btn.onclick = async () => {
     const a = btn.dataset.c;
-    if (a === 'heroUp') pickImage(src => { S.site.heroSrc = src; DB.set('site', S.site); applyHero(); admImages(); toast(t('t_img'), 'img'); });
-    if (a === 'heroRm') { delete S.site.heroSrc; DB.set('site', S.site); applyHero(); admImages(); }
-    if (a === 'aboutRe') { delete S.site.aboutSrc; S.site.aboutSeed = rndSeed(); DB.set('site', S.site); applyAbout(); admImages(); }
-    if (a === 'aboutUp') pickImage(src => { S.site.aboutSrc = src; DB.set('site', S.site); applyAbout(); admImages(); toast(t('t_img'), 'img'); });
-    if (a === 'aboutRm') { delete S.site.aboutSrc; DB.set('site', S.site); applyAbout(); admImages(); }
+    if (a === 'heroUp') pickImage(async src => { S.site.heroSrc = src; if (!await DB.set('site', S.site)) return; applyHero(); admImages(); toast(t('t_img'), 'img'); });
+    if (a === 'heroRm') { delete S.site.heroSrc; if (!await DB.set('site', S.site)) return; applyHero(); admImages(); }
+    if (a === 'aboutRe') { delete S.site.aboutSrc; S.site.aboutSeed = rndSeed(); if (!await DB.set('site', S.site)) return; applyAbout(); admImages(); }
+    if (a === 'aboutUp') pickImage(async src => { S.site.aboutSrc = src; if (!await DB.set('site', S.site)) return; applyAbout(); admImages(); toast(t('t_img'), 'img'); });
+    if (a === 'aboutRm') { delete S.site.aboutSrc; if (!await DB.set('site', S.site)) return; applyAbout(); admImages(); }
   });
 }
 
@@ -1582,7 +1512,7 @@ function admSec() {
       </form>
     </div>`;
 
-  b.querySelector('#passForm').onsubmit = e => {
+  b.querySelector('#passForm').onsubmit = async e => {
     e.preventDefault();
     const f = e.target;
     const cur = f.querySelector('#spCur').value;
@@ -1598,14 +1528,15 @@ function admSec() {
     f.querySelectorAll('.fld').forEach(x => x.classList.remove('err'));
 
     let ok = true;
-    if (hash(cur) !== DB.get('adminpass', '-1340685460')) { err('cur', t('e_scur')); ok = false; }
-    if (nw.length < 4) { err('new', t('e_snew')); ok = false; }
+    if (nw.length < 12) { err('new', t('e_snew')); ok = false; }
     if (nw !== nw2) { err('new2', t('e_smatch')); ok = false; }
     if (!ok) return;
 
-    DB.set('adminpass', hash(nw));
-    f.reset();
-    toast(t('t_pass'), 'check');
+    const submit = f.querySelector('button');
+    submit.disabled = true;
+    try { await api('password', 'POST', { current: cur, password: nw }); f.reset(); toast(t('t_pass')); }
+    catch (error) { err('cur', error.message); }
+    finally { submit.disabled = false; }
   };
 }
 
@@ -1638,7 +1569,6 @@ function updateLangUI() {
 
 function setLang(l, quiet) {
   LANG = l;
-  lsSet('jz_lang', l);
   updateLangUI();
   applyI18n();
   renderMarquee();
@@ -1658,7 +1588,6 @@ function setLang(l, quiet) {
 function setTheme(th, quiet) {
   THEME = th;
   document.documentElement.dataset.theme = th;
-  lsSet('jz_theme', th);
   renderWorks();
   applyAbout();
 
@@ -1872,24 +1801,12 @@ function wireEvents() {
   });
 }
 
-addEventListener('storage', e => {
-  if (!e.key || e.key.indexOf('jz_') !== 0) return;
-  safe(() => {
-    loadAll();
-    renderWorks();
-    renderContacts();
-    renderStats();
-    applyAbout();
-    applyHero();
-    if (location.hash === '#admin' && !$('#adminPage').classList.contains('hidden') && SS.get() === '1') {
-      renderAdminPanel();
-    }
-  });
-});
+addEventListener('hashchange', refreshContent);
+addEventListener('online', refreshContent);
 
-function init() {
-  safe(seed);
-  safe(loadAll);
+async function init() {
+  try { acceptContent(await api('content')); SS.mem = (await api('session')).authenticated ? '1' : null; }
+  catch { showConnectionError(); loadAll(); }
 
   safe(() => {
     $$('#wordmark span').forEach(s => {
@@ -1916,11 +1833,14 @@ function init() {
   safe(wireEvents);
   safe(route);
 
-  if (MEMMODE) setTimeout(() => toast(t('t_memmode'), 'img'), 2600);
+  const events = new EventSource('/api/events');
+  events.onmessage = refreshContent;
+  events.onerror = showConnectionError;
+  setInterval(refreshContent, 30000);
 }
 
 try {
-  init();
+  init().catch(error => { console.error(error); showConnectionError(); });
 } catch (e) {
   console.error('[jz] init failed:', e);
 }
