@@ -29,3 +29,4 @@ data/
 !.env.example
 *.sqlite*
 .vercel/
+log.txt
