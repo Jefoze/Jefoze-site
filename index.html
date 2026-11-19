@@ -1,208 +1,315 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jefoze — Minecraft Plugin Developer & Tech Admin</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238fe0ff' stroke-width='1.8' stroke-linejoin='round'%3E%3Cpath d='M12 2.7 20 7.3v9.4L12 21.3 4 16.7V7.3L12 2.7Z'/%3E%3Cpath d='M12 12 20 7.3M12 12 4 7.3M12 12v9.3'/%3E%3C/svg%3E">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jefoze — разработчик плагинов для Minecraft</title>
+<meta name="description" content="Александр (Jefoze) — разработчик плагинов для Minecraft, уровень Middle. Проекты: GribCam, GCosmetics, JefTrade, JefCoins.">
+<meta name="theme-color" content="#24225C">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Jefoze — разработчик плагинов для Minecraft">
+<meta property="og:description" content="Пишу и настраиваю плагины для Minecraft. Проекты, цены и контакты.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E⛏️%3C/text%3E%3C/svg%3E">
+<script>document.documentElement.className+=' js'</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Golos+Text:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./src/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Unbounded:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --deep:#24225C; --on-deep:#ECE9FF; --sun:#FFC93C; --coral:#FF6B4A; --on-sun:#24225C;
+  --paper:#F5F3FF; --on-paper:#24225C; --lav:#CBC6FF; --on-lav:#24225C; --muted-paper:#55538A;
+  box-sizing:border-box; color-scheme:light;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#1A1944; --on-paper:#ECE9FF; --muted-paper:#A9A6D6; --lav:#2F2D78; --on-lav:#ECE9FF; --deep:#14133A; color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#1A1944;--on-paper:#ECE9FF;--muted-paper:#A9A6D6;--lav:#2F2D78;--on-lav:#ECE9FF;--deep:#14133A;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth;background:var(--deep)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--deep);color:var(--on-deep);font-family:"Manrope",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:17px;line-height:1.65;overflow-x:hidden}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+h1,h2,h3{margin:0;font-family:"Unbounded","Manrope",sans-serif;line-height:1.05}
+
+.pg{position:fixed;top:env(safe-area-inset-top,0px);left:0;width:100%;height:4px;background:var(--sun);transform-origin:0 50%;transform:scaleX(var(--p,0));z-index:50}
+header .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-top:22px;padding-bottom:22px}
+.logo{font-family:"Unbounded",sans-serif;font-weight:700;text-decoration:none;font-size:18px}
+nav{display:flex;gap:22px;flex-wrap:wrap}
+nav a{text-decoration:none;font-weight:500;opacity:.85}
+nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:6px;text-decoration-color:var(--sun)}
+
+.hero{position:relative;overflow:hidden;padding:34px 0 150px}
+.hero .wrap{position:relative;z-index:1}
+.hero h1{font-weight:900;font-size:clamp(52px,14.5vw,176px);letter-spacing:-.03em;margin-left:-.04em}
+.hero h1 i{display:inline-block;font-style:normal;animation:rise .8s cubic-bezier(.2,.9,.3,1.35) backwards;animation-delay:calc(var(--i)*80ms + .1s);transition:transform .25s cubic-bezier(.3,1.5,.5,1)}
+.hero h1 i:hover{transform:translateY(-8px) rotate(-5deg)}
+.hero-row{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:end;margin-top:30px}
+.hero-row>div>*{animation:up .8s cubic-bezier(.2,.8,.2,1) backwards}
+.hero-row>div>:nth-child(1){animation-delay:.7s}.hero-row>div>:nth-child(2){animation-delay:.85s}.hero-row>div>:nth-child(3){animation-delay:1s}.hero-row>div>:nth-child(4){animation-delay:1.15s}
+.lead{font-size:clamp(20px,2.6vw,26px);line-height:1.4;max-width:30ch;margin:0 0 14px}
+.lead b{color:var(--sun)}
+.doing{margin:0 0 26px;min-height:1.7em;opacity:.9}
+.doing b{color:var(--sun)}
+.caret{display:inline-block;width:2px;height:1.1em;background:var(--sun);margin-left:3px;vertical-align:-3px;animation:blink 1s steps(1) infinite}
+.btn{display:inline-block;font:inherit;font-weight:700;padding:14px 26px;border-radius:999px;border:2px solid var(--on-deep);background:transparent;color:var(--on-deep);cursor:pointer;transition:background .15s,color .15s,transform .2s cubic-bezier(.3,1.5,.5,1)}
+.btn.sun{background:var(--sun);border-color:var(--sun);color:var(--on-sun);animation:ring 2.6s ease-out 3s infinite}
+.btn.sun:hover{background:var(--coral);border-color:var(--coral);color:#fff;transform:scale(1.06) rotate(-1.5deg)}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;font-size:15px}
+.chips span{padding:4px 14px;border-radius:999px;background:rgba(255,255,255,.1)}
+.cubes{width:100%;max-width:380px;justify-self:end;height:auto;transform:translate(var(--px,0px),var(--py,0px));transition:transform .25s ease-out}
+.cu{animation:drop .8s cubic-bezier(.3,1.5,.5,1) backwards}
+.c1{animation-delay:.5s}.c2{animation-delay:.75s}.c3{animation-delay:1s}
+.c4{animation:drop .8s cubic-bezier(.3,1.5,.5,1) 1.25s backwards,bob 3.4s ease-in-out 2.3s infinite}
+.sparks{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.sparks i{position:absolute;bottom:-24px;left:var(--x);width:var(--s);height:var(--s);background:var(--c);opacity:.55;animation:float var(--du) linear var(--dl) infinite}
+.ticker{position:absolute;left:-5%;right:-5%;bottom:62px;transform:rotate(-2deg);background:var(--sun);color:#24225C;overflow:hidden;white-space:nowrap;padding:10px 0;font-family:"Unbounded",sans-serif;font-weight:700;font-size:14px;z-index:1}
+.tk{display:flex;width:max-content;animation:marquee 30s linear infinite}
+.tk div{display:flex;gap:34px;padding-right:34px}
+.tk span::after{content:"";display:inline-block;width:9px;height:9px;background:#24225C;margin-left:34px}
+
+.sheet{position:relative;margin-top:-48px;border-radius:48px 48px 0 0;padding:84px 0 96px}
+.sheet h2{font-weight:700;font-size:clamp(28px,4.6vw,48px);letter-spacing:-.02em;max-width:20ch}
+.sub{max-width:54ch;margin:16px 0 40px;opacity:.8}
+#about{background:var(--paper);color:var(--on-paper);z-index:2}
+#projects{background:var(--lav);color:var(--on-lav);z-index:3}
+#prices{background:var(--sun);color:var(--on-sun);z-index:4}
+#contacts{background:var(--deep);color:var(--on-deep);z-index:5}
+
+.about{display:grid;grid-template-columns:1.25fr .75fr;gap:48px;margin-top:30px}
+.about p{margin:0 0 16px;max-width:60ch}
+.stat{display:grid;align-content:start}
+.stat div{padding:16px 0;border-bottom:2px solid var(--on-paper)}
+.stat div:first-child{border-top:2px solid var(--on-paper)}
+.stat b{display:block;font-family:"Unbounded",sans-serif;font-size:26px;font-weight:700}
+.stat small{color:var(--muted-paper);font-size:15px}
+
+.rows{border-top:2px solid var(--on-lav)}
+.row{display:grid;grid-template-columns:.9fr 1.3fr .8fr;gap:24px;align-items:center;padding:26px 14px;border-bottom:2px solid var(--on-lav);transition:background .15s,color .15s}
+.row:hover{background:var(--sun);color:#24225C}
+.row h3{font-size:clamp(24px,3.4vw,38px);font-weight:700;letter-spacing:-.02em;transition:transform .3s cubic-bezier(.3,1.5,.5,1)}
+.row:hover h3{transform:translateX(12px)}
+.row p{margin:0}
+.tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.tags span,.tags a{font-size:13.5px;font-weight:700;padding:3px 12px;border-radius:999px;border:2px solid currentColor}
+.tags .r{background:var(--coral);border-color:var(--coral);color:#fff}
+.tags a{background:var(--deep);border-color:var(--deep);color:var(--on-deep);text-decoration:none;transition:transform .2s cubic-bezier(.3,1.5,.5,1)}
+.tags a:hover{transform:scale(1.1);text-decoration:underline;text-underline-offset:3px}
+.note{margin:32px 0 0;max-width:68ch;font-size:16px}
+.note a{text-underline-offset:4px}
+
+.prices{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.price{background:var(--deep);color:var(--on-deep);border-radius:28px;padding:32px;transition:transform .3s cubic-bezier(.3,1.5,.5,1)}
+.price:hover{transform:translateY(-8px) rotate(-.6deg)}
+.price h3{font-size:19px;font-weight:700}
+.price .sum{font-family:"Unbounded",sans-serif;font-weight:900;font-size:clamp(32px,5vw,50px);color:var(--sun);margin:18px 0 12px;letter-spacing:-.02em}
+.price p{margin:0 0 8px;opacity:.85}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin:44px 0 0;padding:0;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;border-top:3px solid var(--on-sun);padding-top:14px}
+.steps li::before{content:counter(s);font-family:"Unbounded",sans-serif;font-weight:900;font-size:28px;display:block;margin-bottom:4px}
+.steps b{display:block;font-size:18px}
+.steps span{font-size:15.5px;opacity:.85}
+
+#contacts h2{font-size:clamp(32px,6.5vw,72px);font-weight:900;max-width:14ch}
+footer{background:var(--deep);color:var(--on-deep);padding:0 0 36px;font-size:15px;opacity:.8;position:relative;z-index:5}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid rgba(236,233,255,.25);padding-top:22px}
+
+dialog{border:0;border-radius:28px;background:var(--deep);color:var(--on-deep);padding:0;width:calc(100% - 32px);max-width:440px;box-shadow:0 0 0 2px var(--sun)}
+dialog[open]{animation:dlg .38s cubic-bezier(.3,1.4,.5,1)}
+dialog::backdrop{background:rgba(10,9,35,.7)}
+dialog[open]::backdrop{animation:fade .3s}
+.dlg-head{display:flex;justify-content:space-between;align-items:center;padding:20px 22px 6px}
+.dlg-head h3{font-size:22px;font-weight:700}
+.x{font:inherit;font-size:24px;line-height:1;width:40px;height:40px;border-radius:50%;border:2px solid var(--on-deep);background:transparent;color:var(--on-deep);cursor:pointer;transition:transform .25s}
+.x:hover{background:var(--coral);border-color:var(--coral);transform:rotate(90deg)}
+.soc{list-style:none;margin:0;padding:14px 22px 24px;display:grid;gap:10px}
+.soc li{animation:li .45s cubic-bezier(.2,.8,.2,1) backwards}
+.soc li:nth-child(1){animation-delay:.1s}.soc li:nth-child(2){animation-delay:.17s}.soc li:nth-child(3){animation-delay:.24s}.soc li:nth-child(4){animation-delay:.31s}
+.soc a,.soc .off{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 20px;border-radius:999px;font-weight:700;text-decoration:none;border:2px solid var(--on-deep)}
+.soc a{transition:background .15s,transform .2s cubic-bezier(.3,1.5,.5,1)}
+.soc a:hover{background:var(--sun);border-color:var(--sun);color:var(--on-sun);transform:translateX(6px)}
+.soc span{font-weight:500;opacity:.8;font-size:15px}
+.soc .off{border-style:dashed;opacity:.75;cursor:default}
+
+.js .rv{opacity:0}
+.js .rv.in{opacity:1;animation:up .75s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:var(--d,0s)}
+.js .rv.l.in{animation-name:lft}
+.js .rv.p.in{animation:pop .8s cubic-bezier(.3,1.4,.5,1) backwards;animation-delay:var(--d,0s)}
+
+@keyframes rise{from{opacity:0;transform:translateY(70%) rotate(10deg)}}
+@keyframes up{from{opacity:0;transform:translateY(26px)}}
+@keyframes lft{from{opacity:0;transform:translateX(-44px)}}
+@keyframes pop{from{opacity:0;transform:scale(.88) rotate(-2.5deg)}}
+@keyframes drop{from{opacity:0;transform:translateY(-150px)}}
+@keyframes bob{50%{transform:translateY(-9px)}}
+@keyframes float{from{opacity:.6;transform:translateY(0) rotate(0)}to{opacity:0;transform:translateY(-820px) rotate(200deg)}}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@keyframes blink{50%{opacity:0}}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(255,201,60,.6)}70%,100%{box-shadow:0 0 0 18px rgba(255,201,60,0)}}
+@keyframes dlg{from{opacity:0;transform:translateY(24px) scale(.9)}}
+@keyframes fade{from{opacity:0}}
+@keyframes li{from{opacity:0;transform:translateX(-20px)}}
+
+@media (max-width:820px){
+  .hero-row,.about,.prices,.steps{grid-template-columns:1fr}
+  .cubes{justify-self:start;max-width:260px}
+  .row{grid-template-columns:1fr;gap:10px}
+  .tags{justify-content:flex-start}
+  .sheet{padding:64px 0 72px;border-radius:32px 32px 0 0;margin-top:-32px}
+  .hero{padding-bottom:130px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .sparks{display:none} .js .rv{opacity:1}
+}
+</style>
 </head>
 <body>
-
-
-<div id="pre" aria-hidden="true">
- <div class="pre-in">
-  <div class="pre-glow"></div>
-  <div class="pre-cubew"><div class="pre-cube"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-  <div class="pre-mark">
-   <span style="animation-delay:.05s">J</span><span style="animation-delay:.11s">e</span><span style="animation-delay:.17s">f</span><span style="animation-delay:.23s">o</span><span style="animation-delay:.29s">z</span><span style="animation-delay:.35s">e</span>
+<div class="pg" aria-hidden="true"></div>
+<header>
+  <div class="wrap">
+    <a class="logo" href="#top">Jefoze</a>
+    <nav aria-label="Разделы">
+      <a href="#about">Обо мне</a><a href="#projects">Проекты</a><a href="#prices">Цены</a><a href="#contacts">Контакты</a>
+    </nav>
   </div>
-  <div class="pre-term">
-   <div class="pre-ln" data-i="pre_l1">&gt; renderer ............... <b>ok</b></div>
-   <div class="pre-ln" data-i="pre_l2">&gt; voxel.field ............ <b>36 nodes</b></div>
-   <div class="pre-ln" data-i="pre_l3">&gt; i18n ................... <b>en · ru</b></div>
-   <div class="pre-ln" data-i="pre_l4">&gt; portfolio .............. <b>github</b></div>
-   <div class="pre-ln" data-i="pre_l5">&gt; handshake .............. <b>ready</b></div>
-   <div class="pre-ln pre-c" style="animation-delay:.08s">&gt;<span class="pre-caret"></span></div>
-  </div>
-  <div class="pre-load">
-   <div class="pre-bar"><i></i></div>
-   <span class="pre-pct" id="prePct">00%</span>
-  </div>
-  <span class="pre-sub" data-i="pre_sub">Jefoze — portfolio</span>
- </div>
-</div>
-
-<div id="prog" aria-hidden="true"></div>
-<div class="grain" aria-hidden="true"></div>
-
-
-<div id="sitePage">
-<header class="nav" id="nav">
- <div class="container nav-in">
-  <a class="brand" href="#top" aria-label="Jefoze — home">
-   <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7 20 7.3v9.4L12 21.3 4 16.7V7.3L12 2.7Z"/><path d="M12 12 20 7.3M12 12 4 7.3M12 12v9.3"/></svg>
-   <span>Jefoze</span>
-  </a>
-  <nav class="nav-links">
-   <a href="#work" data-i="nav_works">Works</a>
-   <a href="#custom" data-i="nav_custom">Custom</a>
-   <a href="#about" data-i="nav_about">About</a>
-  </nav>
-  <div class="nav-right">
-   <div class="lsw" id="lsw" aria-label="Language">
-    <span class="lsw-th"></span>
-    <button type="button" data-l="en">EN</button>
-    <button type="button" data-l="ru">RU</button>
-   </div>
-   <button class="nav-icon" id="themeBtn" aria-label="Theme">
-    <svg class="ic ic-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
-    <svg class="ic ic-sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-   </button>
-   <button class="nav-icon" id="burger" aria-label="Menu">
-    <svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg>
-   </button>
-  </div>
- </div>
- <div id="mmenu">
-  <a href="#work" data-i="nav_works">Works</a>
-  <a href="#custom" data-i="nav_custom">Custom</a>
-  <a href="#about" data-i="nav_about">About</a>
- </div>
 </header>
 
-<main>
- <section class="hero" id="top">
-  <div class="hero-glow"></div>
-  <canvas id="field" aria-hidden="true"></canvas>
-  <div class="container hero-in">
-   <span class="eyebrow" id="heroEb" data-i="hero_eyebrow">Minecraft Technical Admin · Plugin Developer</span>
-   <h1 class="wordmark" id="wordmark" aria-label="Jefoze"><span style="animation-delay:.08s" aria-hidden="true">J</span><span style="animation-delay:.135s" aria-hidden="true">e</span><span style="animation-delay:.19s" aria-hidden="true">f</span><span style="animation-delay:.245s" aria-hidden="true">o</span><span style="animation-delay:.3s" aria-hidden="true">z</span><span style="animation-delay:.355s" aria-hidden="true">e</span></h1>
-   <p class="hero-sub" data-i="hero_sub">Alexander, 16 — <b>Middle Minecraft Plugin Developer</b> &amp; Tech Admin, based in Uzbekistan. Systems that hold under load, code your admins can read.</p>
-   <div class="hero-cta">
-    <a class="btn btn-solid" href="#work"><span data-i="cta_works">View works</span>
-     <svg class="ic" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8.5 7H17v8.5"/></svg>
-    </a>
-    <a class="btn btn-ghost" data-contact-link href="#contacts"><span data-i="cta_custom">Get in touch</span></a>
-   </div>
-  </div>
-  <div class="container hero-foot">
-   <span><i class="dot ok"></i><span data-i="hf_avail">Available for work</span></span>
-   <span class="hf-mid" data-i="hf_tz">Samarkand · UTC+5</span>
-   <span data-i="hf_est">Est. 2023</span>
-   <span class="scrolldn"><span data-i="hf_scroll">Scroll</span>
-    <svg class="ic" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10l5 5 5-5"/></svg>
-   </span>
-  </div>
- </section>
-
- <div class="mq" aria-hidden="true"><div class="mq-track" id="mqTrack">
-  <div class="mq-grp">
-   <span class="mq-item">Plugin architecture</span><i></i>
-   <span class="mq-item">Performance profiling</span><i></i>
-   <span class="mq-item">Paper · Spigot · Folia</span><i></i>
-   <span class="mq-item">Permission systems</span><i></i>
-   <span class="mq-item">Velocity networks</span><i></i>
-   <span class="mq-item">Forge &amp; Fabric mods</span><i></i>
-   <span class="mq-item">Server optimization</span><i></i>
-   <span class="mq-item">Clean APIs &amp; docs</span><i></i>
-  </div>
-  <div class="mq-grp">
-   <span class="mq-item">Plugin architecture</span><i></i>
-   <span class="mq-item">Performance profiling</span><i></i>
-   <span class="mq-item">Paper · Spigot · Folia</span><i></i>
-   <span class="mq-item">Permission systems</span><i></i>
-   <span class="mq-item">Velocity networks</span><i></i>
-   <span class="mq-item">Forge &amp; Fabric mods</span><i></i>
-   <span class="mq-item">Server optimization</span><i></i>
-   <span class="mq-item">Clean APIs &amp; docs</span><i></i>
-  </div>
- </div></div>
-
- <section id="about" class="section">
-  <div class="container">
-   <div class="sec-head" data-rev>
-    <span class="ghost" data-px2>01</span>
-    <div>
-     <span class="eyebrow"><em data-i="about_eb_n">01</em> <span data-i="about_eb">— About</span></span>
-     <h2 class="h2" data-i="about_h">Systems-first developer.<br>Server-side to the core.</h2>
+<main id="top">
+  <div class="hero">
+    <div class="sparks" aria-hidden="true">
+      <i style="--x:6%;--s:10px;--c:#FFC93C;--du:13s;--dl:-2s"></i><i style="--x:17%;--s:16px;--c:#CBC6FF;--du:17s;--dl:-9s"></i><i style="--x:29%;--s:8px;--c:#FF6B4A;--du:11s;--dl:-5s"></i><i style="--x:41%;--s:14px;--c:#FFC93C;--du:15s;--dl:-12s"></i>
+      <i style="--x:55%;--s:9px;--c:#CBC6FF;--du:12s;--dl:-1s"></i><i style="--x:68%;--s:18px;--c:#FF6B4A;--du:19s;--dl:-7s"></i><i style="--x:81%;--s:11px;--c:#FFC93C;--du:14s;--dl:-10s"></i><i style="--x:93%;--s:13px;--c:#CBC6FF;--du:16s;--dl:-4s"></i>
     </div>
-    <p class="sec-side" data-i="about_side">One person, accountable end to end — from the first line of scope to the last optimization pass.</p>
-   </div>
-   <div class="about-grid">
-    <div class="about-txt" data-rev>
-     <p data-i="about_p1">I’m Alexander — a <b>middle-level plugin developer and technical administrator</b> from Uzbekistan. For the past years I’ve been building and maintaining the systems Minecraft servers run on: permission architecture, optimization work, and plugins written for the way owners actually use them.</p>
-     <p data-i="about_p2">Everything I ship comes with readable source, sane configuration and documentation your next admin won’t have to fight. <b>Middle-level by title — production-minded by habit.</b></p>
-     <div class="stats" data-rev data-countg id="statsRow"></div>
+    <div class="wrap">
+      <h1 aria-label="Jefoze"><span aria-hidden="true"><i style="--i:0">J</i><i style="--i:1">e</i><i style="--i:2">f</i><i style="--i:3">o</i><i style="--i:4">z</i><i style="--i:5">e</i></span></h1>
+      <div class="hero-row">
+        <div>
+          <p class="lead">Александр, 16 лет. Пишу и настраиваю <b>плагины для Minecraft</b>. Уровень — Middle.</p>
+          <p class="doing">Сейчас делаю: <b id="tw">плагины для Paper</b><span class="caret" aria-hidden="true"></span></p>
+          <div><button type="button" class="btn sun js-soc">Я в соцсетях</button></div>
+          <div class="chips"><span>Узбекистан</span><span>12–16 часов в неделю</span><span>Paper 1.21.6+</span></div>
+        </div>
+        <svg class="cubes" viewBox="-80 0 160 170" role="img" aria-label="Стопка кубов — по одному на каждый плагин">
+          <defs>
+            <g id="cb">
+              <polygon points="0,-35 30,-20 0,-5 -30,-20" fill="var(--t)"/>
+              <polygon points="-30,-20 0,-5 0,30 -30,15" fill="var(--l)"/>
+              <polygon points="30,-20 0,-5 0,30 30,15" fill="var(--r)"/>
+            </g>
+          </defs>
+          <g class="cu c1"><use href="#cb" x="-30" y="100" style="--t:#CBC6FF;--l:#8C86E6;--r:#6D66CC"/></g>
+          <g class="cu c2"><use href="#cb" x="30" y="100" style="--t:#FFC93C;--l:#E0A81E;--r:#C48E10"/></g>
+          <g class="cu c3"><use href="#cb" x="0" y="115" style="--t:#FF8E74;--l:#E5593A;--r:#C4442A"/></g>
+          <g class="cu c4"><use href="#cb" x="0" y="80" style="--t:#ECE9FF;--l:#B7B2F0;--r:#9690DC"/></g>
+        </svg>
+      </div>
     </div>
-   </div>
+    <div class="ticker" aria-hidden="true"><div class="tk">
+      <div><span>GribCam</span><span>GCosmetics</span><span>JefTrade</span><span>JefCoins</span><span>Paper 1.21.6+</span><span>Minecraft-плагины</span></div>
+      <div><span>GribCam</span><span>GCosmetics</span><span>JefTrade</span><span>JefCoins</span><span>Paper 1.21.6+</span><span>Minecraft-плагины</span></div>
+    </div></div>
   </div>
- </section>
 
- <section id="work" class="section">
-  <div class="container">
-   <div class="sec-head" data-rev>
-    <span class="ghost" data-px2>02</span>
-    <div>
-     <span class="eyebrow"><em data-i="works_eb_n">02</em> <span data-i="works_eb">— Works</span></span>
-     <h2 class="h2" data-i="works_h">Selected works,<br>open on GitHub.</h2>
+  <section class="sheet" id="about">
+    <div class="wrap">
+      <h2 data-rv>Пишу плагины, которые работают на сервере без сюрпризов</h2>
+      <div class="about">
+        <div data-rv>
+          <p>Меня зовут Александр, мне 16 лет, я живу в Узбекистане. Специализируюсь на разработке и конфигурации плагинов для Minecraft-серверов. Мой уровень — Middle: беру задачи от простой настройки до готовой игровой системы.</p>
+          <p>Работаю один и отвечаю за результат целиком: от обсуждения задачи до финальной проверки. Могу уделять заказам 12–16 часов в неделю.</p>
+        </div>
+        <div class="stat" data-rvc="up">
+          <div><b>Middle</b><small>уровень разработчика</small></div>
+          <div><b><span data-n="4">4</span> плагина</b><small>в портфолио</small></div>
+          <div><b><span data-n="12">12</span>–<span data-n="16">16</span> ч</b><small>свободно в неделю</small></div>
+        </div>
+      </div>
     </div>
-    <p class="sec-side" data-i="works_side">Everything is public: source, documentation and releases live on GitHub. Grab it, fork it, ship it.</p>
-   </div>
-   <div class="store" id="worksGrid" data-rev-group></div>
-  </div>
- </section>
+  </section>
 
- <section id="custom" class="section">
-  <div class="container">
-   <div class="cta-band" data-rev>
-    <span class="ghost" data-px2>03</span>
-    <span class="eyebrow"><em data-i="custom_eb_n">03</em> <span data-i="custom_eb">— Custom work</span></span>
-    <h2 class="h2" data-i="custom_h">Have an idea that<br>doesn’t exist yet?</h2>
-    <p data-i="custom_p">Bespoke plugins and mods for servers that outgrew the market. From lightweight utilities to full gameplay systems — scoped, quoted and delivered by one person who answers for the result.</p>
-    <a class="btn btn-solid" data-contact-link href="#contacts"><span data-i="custom_btn">Get in touch</span>
-     <svg class="ic" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12h15M13.5 6l6 6-6 6"/></svg>
-    </a>
-   </div>
-   <div class="steps" data-rev>
-    <div class="step"><span class="n">01 /</span><h4 data-i="s1h">Describe</h4><p data-i="s1p">Send the idea, budget and deadline. No formal spec required — an honest paragraph is enough.</p></div>
-    <div class="step"><span class="n">02 /</span><h4 data-i="s2h">Scope</h4><p data-i="s2p">I reply with a fixed quote, a timeline and a technical plan — usually within a day.</p></div>
-    <div class="step"><span class="n">03 /</span><h4 data-i="s3h">Build</h4><p data-i="s3p">Development, testing on a mirror of your server, delivery with source and documentation.</p></div>
-   </div>
-  </div>
- </section>
+  <section class="sheet" id="projects">
+    <div class="wrap">
+      <h2 data-rv>Мои проекты</h2>
+      <p class="sub" data-rv>Четыре плагина, написанные для Minecraft-серверов.</p>
+      <div class="rows" data-rvc="l">
+        <article class="row"><h3>GribCam</h3><p>Плагин для работы с камерами в игре с помощью компьютера.</p><div class="tags"><span>Камеры</span><span class="r">Закрытый код</span></div></article>
+        <article class="row"><h3>GCosmetics</h3><p>Косметические предметы для игроков: их можно надеть на голову, спину и руку.</p><div class="tags"><span>Косметика</span><span class="r">Закрытый код</span></div></article>
+        <article class="row"><h3>JefTrade</h3><p>Безопасный обмен между игроками через удобное меню. Поддерживает предметы, валюту и опыт, защищает от дюпов и скама.</p><div class="tags"><span>GUI</span><span>Валюта</span><span>XP</span><a href="https://github.com/Jefoze/JefTrade" target="_blank" rel="noopener">Открытый код</a></div></article>
+        <article class="row"><h3>JefCoins</h3><p>Современный плагин экономики для Paper 1.21.6+. Помогает удобно управлять валютой на сервере.</p><div class="tags"><span>Экономика</span><span>Paper 1.21.6+</span><a href="https://github.com/Jefoze/JefCoins" target="_blank" rel="noopener">Открытый код</a></div></article>
+      </div>
+      <p class="note" data-rv><b>Почему GribCam и GCosmetics закрыты.</b> Эти плагины сделаны на заказ, и заказчик попросил сохранить исходный код конфиденциальным. Код JefTrade и JefCoins открыт — его можно посмотреть на <a href="https://github.com/Jefoze" target="_blank" rel="noopener">GitHub</a>.</p>
+    </div>
+  </section>
+
+  <section class="sheet" id="prices">
+    <div class="wrap">
+      <h2 data-rv>Услуги и цены</h2>
+      <p class="sub" data-rv>Итоговая цена зависит от задачи и сложности плагина. Называю её до начала работы.</p>
+      <div class="prices" data-rvc="p">
+        <div class="price"><h3>Установка и настройка</h3><div class="sum"><span data-n="100">100</span>–<span data-n="1000">1000</span> ₽</div><p>Установлю плагин и полностью настрою его под ваш сервер.</p><p>Цена зависит от объёма настройки.</p></div>
+        <div class="price"><h3>Разработка плагина</h3><div class="sum"><span data-n="500">500</span>–<span data-n="7000">7000</span> ₽</div><p>Напишу плагин под вашу идею — от небольшой утилиты до сложной системы.</p><p>Цена зависит от сложности плагина.</p></div>
+      </div>
+      <ol class="steps" data-rvc="up">
+        <li><b>Опишите задачу</b><span>Что должен делать плагин, на какой версии сервера и в какие сроки.</span></li>
+        <li><b>Согласуем цену</b><span>Я оцениваю сложность и называю стоимость до начала работы.</span></li>
+        <li><b>Получите результат</b><span>Разрабатываю, проверяю и передаю готовый плагин.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sheet" id="contacts">
+    <div class="wrap">
+      <h2 data-rv>Есть идея для плагина?</h2>
+      <p class="sub" data-rv>Напишите, что нужно сделать или настроить, — я оценю задачу и отвечу с ценой. Все контакты — по кнопке.</p>
+      <div data-rv="p" style="display:inline-block"><button type="button" class="btn sun js-soc">Я в соцсетях</button></div>
+    </div>
+  </section>
 </main>
 
-<footer>
- <div class="container foot-top">
-  <div>
-   <div class="brand">
-    <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.7 20 7.3v9.4L12 21.3 4 16.7V7.3L12 2.7Z"/><path d="M12 12 20 7.3M12 12 4 7.3M12 12v9.3"/></svg>
-    <span>Jefoze</span>
-   </div>
-   <p class="fsub" data-i="f_sub">Minecraft technical administration &amp; plugin development. Built in Samarkand, shipped worldwide.</p>
-  </div>
-  <div class="fcols">
-   <div class="fcol"><h6 data-i="f_site">Site</h6>
-    <a href="#work" data-i="f_works">Works</a><a href="#custom" data-i="f_custom_l">Custom work</a><a href="#about" data-i="f_about_l">About</a></div>
-   <div class="fcol" id="contacts"><h6 data-i="f_contacts">Contacts</h6><div id="contactCol"></div></div>
-   <div class="fcol"><h6 data-i="f_meta">Meta</h6>
-    <a href="#top" data-i="f_top">Back to top</a></div>
-  </div>
- </div>
- <div class="container foot-bot">
-  <span data-i="f_copy">© 2026 Jefoze — Uzbekistan</span>
- </div>
-</footer>
-</div>
+<footer><div class="wrap"><span>© 2026 Jefoze — Узбекистан</span><a href="#top">Наверх</a></div></footer>
 
-<div id="adminPage" class="hidden"><div id="admRoot"></div></div>
+<dialog id="soc" aria-labelledby="soc-title">
+  <div class="dlg-head"><h3 id="soc-title">Я в соцсетях</h3><button type="button" class="x" id="soc-close" aria-label="Закрыть">×</button></div>
+  <ul class="soc">
+    <li><a href="https://t.me/Jefoze_dev" target="_blank" rel="noopener">Telegram <span>@Jefoze_dev</span></a></li>
+    <li><a href="https://github.com/Jefoze" target="_blank" rel="noopener">GitHub <span>Jefoze</span></a></li>
+    <li><a href="https://jefoze.vercel.app/" target="_blank" rel="noopener">Сайт <span>jefoze.vercel.app</span></a></li>
+    <li><div class="off">Discord <span>Jefoze</span></div></li>
+  </ul>
+</dialog>
+<script>
+(function(){
+  var d=document.getElementById('soc');
+  document.querySelectorAll('.js-soc').forEach(function(b){b.addEventListener('click',function(){if(d.showModal){d.showModal()}else{d.setAttribute('open','')}})});
+  document.getElementById('soc-close').addEventListener('click',function(){d.close()});
+  d.addEventListener('click',function(e){if(e.target===d){d.close()}});
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
 
-<div id="toasts"></div>
+  var els=[];
+  document.querySelectorAll('[data-rv]').forEach(function(e){e.classList.add('rv');if(e.dataset.rv)e.classList.add(e.dataset.rv);els.push(e)});
+  document.querySelectorAll('[data-rvc]').forEach(function(g){[].forEach.call(g.children,function(c,i){c.classList.add('rv',g.dataset.rvc);c.style.setProperty('--d',(i*.12)+'s');els.push(c)})});
+  function count(el){el.querySelectorAll('[data-n]').forEach(function(s){var n=+s.dataset.n,t0=null;function f(t){if(!t0)t0=t;var p=Math.min((t-t0)/1100,1);s.textContent=Math.round(n*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)}s.textContent=0;requestAnimationFrame(f)})}
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');count(en.target);io.unobserve(en.target)}})},{threshold:.15,rootMargin:'0px 0px -6% 0px'});
+    els.forEach(function(e){io.observe(e)});
+  }else{els.forEach(function(e){e.classList.add('in')})}
 
-<script type="module" src="/src/counter.js"></script>
+  var bar=document.querySelector('.pg'),tk=false;
+  function sc(){var m=document.documentElement.scrollHeight-innerHeight;bar.style.setProperty('--p',m>0?Math.min(scrollY/m,1):0);tk=false}
+  addEventListener('scroll',function(){if(!tk){tk=true;requestAnimationFrame(sc)}},{passive:true});sc();
+
+  var cu=document.querySelector('.cubes');
+  addEventListener('pointermove',function(e){if(e.pointerType==='touch')return;cu.style.setProperty('--px',(-(e.clientX/innerWidth-.5)*34)+'px');cu.style.setProperty('--py',(-(e.clientY/innerHeight-.5)*24)+'px')},{passive:true});
+
+  var tw=document.getElementById('tw'),W=['плагины для Paper','GUI-меню для игроков','экономику сервера','защиту от дюпов и скама','камеры для игры'],wi=0,ci=0,del=false;
+  function ty(){var w=W[wi],t=del?28:60;ci+=del?-1:1;tw.textContent=w.slice(0,ci);
+    if(!del&&ci===w.length){del=true;t=1500}else if(del&&ci===0){del=false;wi=(wi+1)%W.length;t=350}
+    setTimeout(ty,t)}
+  setTimeout(function(){ci=W[0].length;del=true;ty()},2200);
+})();
+</script>
 </body>
 </html>
