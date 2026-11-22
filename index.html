@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Jefoze — разработчик плагинов для Minecraft</title>
-<meta name="description" content="Александр (Jefoze) — разработчик плагинов для Minecraft, уровень Middle. Проекты: GribCam, GCosmetics, JefTrade, JefCoins.">
+<meta name="description" content="Александр (Jefoze) — разработчик плагинов для Minecraft, уровень Middle. Проекты: GribCam, GCosmetics, JefTrade, JefCoins, JefCases.">
 <meta name="theme-color" content="#f6f3ec">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
@@ -20,6 +20,28 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Unbounded:wght@500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="src/style.css">
+
+<style>
+.project-card{display:flex;flex-direction:column;align-items:stretch}
+.project-shot{height:208px;margin:-8px -8px 24px;position:relative;overflow:hidden;border-radius:16px;background:linear-gradient(135deg,var(--green-softer),var(--gold-soft));border:1px solid var(--line);display:grid;place-items:center}
+.project-shot img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.project-shot span{position:relative;z-index:1;padding:8px 14px;border-radius:10px;background:rgba(20,35,27,.72);color:#fff;font-family:"Unbounded",sans-serif;font-size:15px;letter-spacing:.02em}
+.project-shot img:not([src]),.project-shot img[src=""]{display:none}
+.project-more{margin-top:22px;align-self:flex-start;padding:11px 20px;font-size:15px}
+.project-dialog{max-width:760px;max-height:min(88vh,900px);overflow:auto}
+.project-dialog .dlg-head{padding-bottom:14px}
+.project-dialog .dlg-head h3{font-family:"Unbounded",sans-serif}
+.project-dialog-body{padding:0 24px 26px}
+.project-dialog-image{width:100%;max-height:360px;object-fit:cover;border-radius:16px;background:var(--tint);border:1px solid var(--line)}
+.project-dialog-desc{color:var(--ink-soft);margin:18px 0 22px;white-space:pre-line}
+.project-dialog-actions{display:flex;gap:12px;flex-wrap:wrap}
+.project-dialog-actions .btn{font-size:15px;padding:12px 20px;text-decoration:none;text-align:center}
+.project-dialog-actions .back-btn{background:var(--bg-soft);color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.project-dialog-actions .back-btn:hover{background:var(--green-softer)}
+.project-status{display:inline-flex;margin:0 0 10px;padding:5px 11px;border-radius:999px;background:var(--gold-soft);color:var(--gold-ink);font-size:13px;font-weight:800}
+@media(max-width:560px){.project-shot{height:184px}.project-dialog{max-height:92vh}.project-dialog-body{padding:0 18px 22px}.project-dialog-actions{display:grid}.project-dialog-actions .btn{width:100%}}
+</style>
+
 </head>
 <body>
 <div class="blobs" aria-hidden="true">
@@ -75,8 +97,8 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
       </div>
     </div>
     <div class="ticker" aria-hidden="true"><div class="tk">
-      <div><span>GribCam</span><span>GCosmetics</span><span>JefTrade</span><span>JefCoins</span><span>Paper 1.21.6+</span><span data-i18n="ticker.end">Minecraft-плагины</span></div>
-      <div><span>GribCam</span><span>GCosmetics</span><span>JefTrade</span><span>JefCoins</span><span>Paper 1.21.6+</span><span data-i18n="ticker.end">Minecraft-плагины</span></div>
+      <div><span>GribCam</span><span>GCosmetics</span><span>JefTrade</span><span>JefCoins</span><span>JefCases</span><span>Paper 1.21.6+</span><span data-i18n="ticker.end">Minecraft-плагины</span></div>
+      <div><span>GribCam</span><span>GCosmetics</span><span>JefTrade</span><span>JefCoins</span><span>JefCases</span><span>Paper 1.21.6+</span><span data-i18n="ticker.end">Minecraft-плагины</span></div>
     </div></div>
   </div>
 
@@ -90,7 +112,7 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
         </div>
         <div class="stat" data-rvc="up">
           <div><b>Middle</b><small data-i18n="about.s1">уровень разработчика</small></div>
-          <div><b><span data-n="4">4</span> <span data-i18n="about.plugins">плагина</span></b><small data-i18n="about.s2">в портфолио</small></div>
+          <div><b><span data-n="5">5</span> <span data-i18n="about.plugins">плагинов</span></b><small data-i18n="about.s2">в портфолио</small></div>
           <div><b><span data-n="12">12</span>–<span data-n="16">16</span> ч</b><small data-i18n="about.s3">свободно в неделю</small></div>
         </div>
       </div>
@@ -100,12 +122,38 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
   <section class="sheet" id="projects">
     <div class="wrap">
       <h2 data-rv data-i18n="projects.h2">Мои проекты</h2>
-      <p class="sub" data-rv data-i18n="projects.sub">Четыре плагина, написанные для Minecraft-серверов.</p>
+      <p class="sub" data-rv data-i18n="projects.sub">Пять проектов для Minecraft-серверов.</p>
       <div class="cards" data-rvc="up">
-        <article class="card"><h3>GribCam</h3><p data-i18n="proj.gcam">Плагин для работы с камерами в игре с помощью компьютера.</p><div class="tags"><span data-i18n="tag.cameras">Камеры</span><span class="r" data-i18n="tag.closed">Закрытый код</span></div></article>
-        <article class="card"><h3>GCosmetics</h3><p data-i18n="proj.gcos">Косметические предметы для игроков: их можно надеть на голову, спину и руку.</p><div class="tags"><span data-i18n="tag.cosmetics">Косметика</span><span class="r" data-i18n="tag.closed">Закрытый код</span></div></article>
-        <article class="card"><h3>JefTrade</h3><p data-i18n="proj.trade">Безопасный обмен между игроками через удобное меню. Поддерживает предметы, валюту и опыт, защищает от дюпов и скама.</p><div class="tags"><span>GUI</span><span data-i18n="tag.currency">Валюта</span><span>XP</span><a href="https://github.com/Jefoze/JefTrade" target="_blank" rel="noopener" data-i18n="tag.open">Открытый код</a></div></article>
-        <article class="card"><h3>JefCoins</h3><p data-i18n="proj.coins">Современный плагин экономики для Paper 1.21.6+. Помогает удобно управлять валютой на сервере.</p><div class="tags"><span data-i18n="tag.economy">Экономика</span><span>Paper 1.21.6+</span><a href="https://github.com/Jefoze/JefCoins" target="_blank" rel="noopener" data-i18n="tag.open">Открытый код</a></div></article>
+        <article class="card project-card">
+          <div class="project-shot"><img src="src/GribCam.png" alt="Скриншот проекта GribCam" loading="lazy"></div>
+          <h3>GribCam</h3><p data-i18n="proj.gcam">GribCam — плагин для управления игровыми камерами через компьютер и наблюдения за миром Minecraft.</p>
+          <div class="tags"><span data-i18n="tag.cameras">Камеры</span><span class="r" data-i18n="tag.closed">Закрытый код</span></div>
+          <button type="button" class="btn project-more" data-project="gribcam" data-i18n="projects.more">Подробнее</button>
+        </article>
+        <article class="card project-card">
+          <div class="project-shot"><img src="src/GCosmetics.png" alt="Скриншот проекта GCosmetics" loading="lazy"></div>
+          <h3>GCosmetics</h3><p data-i18n="proj.gcos">GCosmetics — плагин с косметическими предметами, которые игроки могут носить на голове, спине и руке.</p>
+          <div class="tags"><span data-i18n="tag.cosmetics">Косметика</span><span class="r" data-i18n="tag.closed">Закрытый код</span></div>
+          <button type="button" class="btn project-more" data-project="gcosmetics" data-i18n="projects.more">Подробнее</button>
+        </article>
+        <article class="card project-card">
+          <div class="project-shot"><img src="src/JefTrade.png" alt="Скриншот проекта JefTrade" loading="lazy"></div>
+          <h3>JefTrade</h3><p data-i18n="proj.trade">JefTrade для Paper 1.21.8 — плагин безопасного обмена предметами, валютой и опытом с защитой от дюпов и обмана.</p>
+          <div class="tags"><span>GUI</span><span data-i18n="tag.currency">Валюта</span><span>XP</span><a href="https://github.com/Jefoze/JefTrade" target="_blank" rel="noopener" data-i18n="tag.open">Открытый код</a></div>
+          <button type="button" class="btn project-more" data-project="jeftrade" data-i18n="projects.more">Подробнее</button>
+        </article>
+        <article class="card project-card">
+          <div class="project-shot"><img src="src/JefCoins.png" alt="Скриншот проекта JefCoins" loading="lazy"></div>
+          <h3>JefCoins</h3><p data-i18n="proj.coins">JefCoins для Paper 1.21.6+ — плагин экономики с банковским меню, переводами между игроками и историей транзакций.</p>
+          <div class="tags"><span data-i18n="tag.economy">Экономика</span><span>Paper 1.21.6+</span><a href="https://github.com/Jefoze/JefCoins" target="_blank" rel="noopener" data-i18n="tag.open">Открытый код</a></div>
+          <button type="button" class="btn project-more" data-project="jefcoins" data-i18n="projects.more">Подробнее</button>
+        </article>
+        <article class="card project-card project-in-progress">
+          <div class="project-shot"><img src="src/JefCases.png" alt="Скриншот интерфейса JefCases" loading="lazy"></div>
+          <h3>JefCases</h3><p data-i18n="proj.cases">JefCases — система открытия кейсов с разными анимациями и наградами. Проект находится в разработке.</p>
+          <div class="tags"><span data-i18n="tag.cases">Кейсы</span><span class="r" data-i18n="tag.progress">В реализации</span></div>
+          <button type="button" class="btn project-more" data-project="jefcases" data-i18n="projects.more">Подробнее</button>
+        </article>
       </div>
       <p class="note" data-rv data-i18n-html="projects.note"><b>Почему GribCam и GCosmetics закрыты.</b> Эти плагины сделаны на заказ, и заказчик попросил сохранить исходный код конфиденциальным. Код JefTrade и JefCoins открыт — его можно посмотреть на <a href="https://github.com/Jefoze" target="_blank" rel="noopener">GitHub</a>.</p>
     </div>
@@ -138,6 +186,19 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
 
 <footer><div class="wrap"><span data-i18n="footer.copy">© 2026 Jefoze — Узбекистан</span><a href="#top" data-i18n="footer.top">Наверх</a></div></footer>
 
+<dialog id="project-dialog" class="project-dialog" aria-labelledby="project-dialog-title">
+  <div class="dlg-head"><h3 id="project-dialog-title">Проект</h3><button type="button" class="x" id="project-close" aria-label="Закрыть">×</button></div>
+  <div class="project-dialog-body">
+    <span class="project-status" id="project-status" hidden></span>
+    <img class="project-dialog-image" id="project-image" src="" alt="">
+    <p class="project-dialog-desc" id="project-description"></p>
+    <div class="project-dialog-actions">
+      <a class="btn" id="project-code" href="#" target="_blank" rel="noopener" hidden>Открыть исходный код</a>
+      <button type="button" class="btn back-btn" id="project-back">Назад</button>
+    </div>
+  </div>
+</dialog>
+
 <dialog id="soc" aria-labelledby="soc-title">
   <div class="dlg-head"><h3 id="soc-title" data-i18n="dlg.title">Я в соцсетях</h3><button type="button" class="x" id="soc-close" data-i18n-aria="dlg.close" aria-label="Закрыть">×</button></div>
   <ul class="soc">
@@ -167,13 +228,22 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
       metaDesc=document.querySelector('meta[name="description"]'),
       metaTheme=document.querySelector('meta[name="theme-color"]'),
       ogT=document.querySelector('meta[property="og:title"]'),
-      ogD=document.querySelector('meta[property="og:description"]');
+      ogD=document.querySelector('meta[property="og:description"]'),
+      projectDialog=document.getElementById('project-dialog'),
+      projectClose=document.getElementById('project-close'),
+      projectTitle=document.getElementById('project-dialog-title'),
+      projectImage=document.getElementById('project-image'),
+      projectDescription=document.getElementById('project-description'),
+      projectStatus=document.getElementById('project-status'),
+      projectCode=document.getElementById('project-code'),
+      projectBack=document.getElementById('project-back'),
+      currentProjectId=null;
 
   /* ---------- i18n ---------- */
   var I18N={
     ru:{
       title:'Jefoze — разработчик плагинов для Minecraft',
-      desc:'Александр (Jefoze) — разработчик плагинов для Minecraft, уровень Middle. Проекты: GribCam, GCosmetics, JefTrade, JefCoins.',
+      desc:'Александр (Jefoze) — разработчик плагинов для Minecraft, уровень Middle. Проекты: GribCam, GCosmetics, JefTrade, JefCoins, JefCases.',
       'nav.label':'Разделы','nav.about':'Обо мне','nav.projects':'Проекты','nav.prices':'Цены','nav.contacts':'Контакты',
       'theme.toDark':'Включить тёмную тему','theme.toLight':'Включить светлую тему',
       'lang.toEn':'Switch to English','lang.toRu':'Переключить на русский',
@@ -186,12 +256,15 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
       'about.h2':'Пишу плагины, которые работают на сервере без сюрпризов',
       'about.p1':'Меня зовут Александр, мне 16 лет, я живу в Узбекистане. Специализируюсь на разработке и конфигурации плагинов для Minecraft-серверов. Мой уровень — Middle: беру задачи от простой настройки до готовой игровой системы.',
       'about.p2':'Работаю один и отвечаю за результат целиком: от обсуждения задачи до финальной проверки. Могу уделять заказам 12–16 часов в неделю.',
-      'about.plugins':'плагина','about.s1':'уровень разработчика','about.s2':'в портфолио','about.s3':'свободно в неделю',
-      'projects.h2':'Мои проекты','projects.sub':'Четыре плагина, написанные для Minecraft-серверов.',
-      'proj.gcam':'Плагин для работы с камерами в игре с помощью компьютера.',
-      'proj.gcos':'Косметические предметы для игроков: их можно надеть на голову, спину и руку.',
-      'proj.trade':'Безопасный обмен между игроками через удобное меню. Поддерживает предметы, валюту и опыт, защищает от дюпов и скама.',
-      'proj.coins':'Современный плагин экономики для Paper 1.21.6+. Помогает удобно управлять валютой на сервере.',
+      'about.plugins':'плагинов','about.s1':'уровень разработчика','about.s2':'в портфолио','about.s3':'свободно в неделю',
+      'projects.h2':'Мои проекты','projects.sub':'Пять проектов для Minecraft-серверов.',
+      'projects.more':'Подробнее','projects.back':'Назад','projects.code':'Открыть исходный код',
+      'proj.cases':'JefCases — система открытия кейсов с разными анимациями и наградами. Проект находится в разработке.',
+      'tag.cases':'Кейсы','tag.progress':'В реализации',
+      'proj.gcam':'GribCam — плагин для управления игровыми камерами через компьютер и наблюдения за миром Minecraft.',
+      'proj.gcos':'GCosmetics — плагин с косметическими предметами, которые игроки могут носить на голове, спине и руке.',
+      'proj.trade':'JefTrade для Paper 1.21.8 — плагин безопасного обмена между игроками предметами, валютой и опытом с защитой от дюпов и обмана.',
+      'proj.coins':'JefCoins для Paper 1.21.6+ — плагин экономики с банковским меню, переводами между игроками и историей транзакций.',
       'tag.cameras':'Камеры','tag.closed':'Закрытый код','tag.cosmetics':'Косметика','tag.currency':'Валюта','tag.economy':'Экономика','tag.open':'Открытый код',
       'projects.note':'<b>Почему GribCam и GCosmetics закрыты.</b> Эти плагины сделаны на заказ, и заказчик попросил сохранить исходный код конфиденциальным. Код JefTrade и JefCoins открыт — его можно посмотреть на <a href="https://github.com/Jefoze" target="_blank" rel="noopener">GitHub</a>.',
       'prices.h2':'Услуги и цены','prices.sub':'Итоговая цена зависит от задачи и сложности плагина. Называю её до начала работы.',
@@ -208,7 +281,7 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
     },
     en:{
       title:'Jefoze — Minecraft plugin developer',
-      desc:'Alexander (Jefoze) — Minecraft plugin developer, Middle level. Projects: GribCam, GCosmetics, JefTrade, JefCoins.',
+      desc:'Alexander (Jefoze) — Minecraft plugin developer, Middle level. Projects: GribCam, GCosmetics, JefTrade, JefCoins, JefCases.',
       'nav.label':'Sections','nav.about':'About','nav.projects':'Projects','nav.prices':'Pricing','nav.contacts':'Contacts',
       'theme.toDark':'Switch to dark theme','theme.toLight':'Switch to light theme',
       'lang.toEn':'Switch to English','lang.toRu':'Переключить на русский',
@@ -222,11 +295,14 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
       'about.p1':"My name is Alexander, I'm 16 and I live in Uzbekistan. I specialize in developing and configuring plugins for Minecraft servers. My level is Middle: I take on tasks from simple setup to a complete game system.",
       'about.p2':'I work alone and own the result from start to finish: from discussing the task to final testing. I can spend 12–16 hours a week on orders.',
       'about.plugins':'plugins','about.s1':'developer level','about.s2':'in portfolio','about.s3':'free per week',
-      'projects.h2':'My projects','projects.sub':'Four plugins built for Minecraft servers.',
-      'proj.gcam':'A plugin for working with in-game cameras from your computer.',
-      'proj.gcos':'Cosmetic items for players: wear them on the head, back or hand.',
-      'proj.trade':'Safe player-to-player trading through a convenient menu. Supports items, currency and XP, protects against dupes and scams.',
-      'proj.coins':'A modern economy plugin for Paper 1.21.6+. Makes server currency easy to manage.',
+      'projects.h2':'My projects','projects.sub':'Five projects for Minecraft servers.',
+      'projects.more':'Details','projects.back':'Back','projects.code':'View source code',
+      'proj.cases':'JefCases is a case-opening system with different animations and rewards. The project is currently in development.',
+      'tag.cases':'Cases','tag.progress':'In development',
+      'proj.gcam':'GribCam is a plugin for controlling in-game cameras from a computer and viewing the Minecraft world.',
+      'proj.gcos':'GCosmetics is a plugin with cosmetic items players can wear on their head, back or hand.',
+      'proj.trade':'JefTrade for Paper 1.21.8 is a secure player-to-player trading plugin for items, currency and experience, with anti-dupe and anti-scam protection.',
+      'proj.coins':'JefCoins for Paper 1.21.6+ is an economy plugin with a graphical bank, player transfers and transaction history.',
       'tag.cameras':'Cameras','tag.closed':'Closed source','tag.cosmetics':'Cosmetics','tag.currency':'Currency','tag.economy':'Economy','tag.open':'Open source',
       'projects.note':'<b>Why GribCam and GCosmetics are closed.</b> These plugins were commissioned, and the client asked to keep the source code private. The code of JefTrade and JefCoins is open — you can browse it on <a href="https://github.com/Jefoze" target="_blank" rel="noopener">GitHub</a>.',
       'prices.h2':'Services & pricing','prices.sub':"The final price depends on the task and the plugin's complexity. I quote it before any work starts.",
@@ -264,6 +340,9 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
     ogD.setAttribute('content',t('desc'));
     if(cu)cu.setAttribute('aria-label',t('hero.cubes'));
     syncUI();
+    if(projectDialog&&projectDialog.open&&currentProjectId){
+      openProject(currentProjectId);
+    }
     typeStart();
     try{localStorage.setItem('jz-lang',cur.lang)}catch(e){}
   }
@@ -296,12 +375,67 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
   closeBtn.addEventListener('click',function(){d.close()});
   d.addEventListener('click',function(e){if(e.target===d){d.close()}});
 
-  /* ---------- mobile menu ---------- */
+  /* ---------- project details ---------- */
+  var PROJECTS={
+    gribcam:{
+      image:'src/GribCam.png',code:null,status:null,
+      ru:{title:'GribCam',description:'GribCam — это плагин для создания кинематографических камер, аналогичных тем, что используются в магазине Minecraft. Плагин позволяет серверу управлять обзором игрока через плавные переходы, фиксированные точки и анимированные траектории, создавая эффект профессиональной съёмки без установки модов на клиент. Внутри предусмотрены настраиваемые камеры, привязка к локациям и сущностям, плавное интерполирование движения и поворотов, режимы следования и облёта, а также интеграция с событиями сервера для показа рекламных роликов, туториалов и презентаций. Всё управление происходит на стороне сервера, что делает просмотр доступным любому игроку без дополнительных модификаций. Плагин ориентирован на Paper 1.21.x и Java 21.'},
+      en:{title:'GribCam',description:'GribCam is a plugin for creating cinematic cameras similar to those used in the Minecraft store. The server controls the player\'s view through smooth transitions, fixed points and animated trajectories, creating a professional filming effect without client-side mods. It includes configurable cameras, binding to locations and entities, smooth interpolation of movement and rotation, follow and flyby modes, and integration with server events for ads, tutorials and presentations. Everything is handled server-side, so any player can watch without extra modifications. Targeted at Paper 1.21.x and Java 21.'}
+    },
+    gcosmetics:{
+      image:'src/GCosmetics.png',code:null,status:null,
+      ru:{title:'GCosmetics',description:'GCosmetics — это плагин на косметику для Paper 1.21.x и Java 21, добавляющий визуальные украшения без влияния на геймплей. Игрокам доступны шапки, предметы в руку (посох, магический посох, трезубец и другие), рюкзаки и прочие косметические элементы, которые отображаются на модели персонажа и в инвентаре. Внутри реализованы категории косметики, меню выбора и предпросмотра, привязка к правам и валюте, сохранение выбранных элементов между сессиями, а также поддержка кастомных моделей и текстур через ресурспак. Система проверяет права и слоты, предотвращает конфликты экипировки и позволяет администраторам выдавать и отзывать косметику. Плагин интегрируется с экономикой и правами сервера, делая кастомизацию персонажа доступной без модов на клиенте.'},
+      en:{title:'GCosmetics',description:'GCosmetics is a cosmetics plugin for Paper 1.21.x and Java 21 that adds visual decorations without affecting gameplay. Players can use hats, hand-held items (staff, magic staff, trident and others), backpacks and other cosmetic elements displayed on the character model and in the inventory. It includes cosmetic categories, selection and preview menus, permission and currency binding, persistence of selected items between sessions, and support for custom models and textures via resource pack. The system checks permissions and slots, prevents equipment conflicts and lets administrators grant and revoke cosmetics. The plugin integrates with the server economy and permissions, making character customization available without client mods.'}
+    },
+    jeftrade:{
+      image:'src/JefTrade.png',code:'https://github.com/Jefoze/JefTrade',status:null,
+      ru:{title:'JefTrade',description:'JefTrade — это продвинутая и безопасная система обмена между игроками для Paper 1.21.8. Плагин предоставляет современный GUI-интерфейс для торговли с обменом предметами, валютой и опытом, многоступенчатой системой подтверждения, защитой от мошенничества и гибким API для интеграций. Внутри реализованы: современное меню торговли, обмен предметами с полными данными ItemStack, настраиваемая поддержка валют, обмен опытом, двухэтапное подтверждение сделки с таймером обратного отсчёта, защита от дюпов и мошенничества, настраиваемая дистанция торговли, налоги на сделки, проверка свободного места в инвентаре, журнал транзакций, компенсация/откат при сбоях, API для разработчиков, опциональные уведомления в Discord через webhook, кастомизируемые сообщения и GUI, асинхронное логирование. Торговля построена вокруг многоступенчатой системы: EDITING → READY → CONFIRMING → COMMITTING → COMPLETED, где любое изменение предложения сбрасывает состояние готовности, а перед финальной транзакцией всё перепроверяется. Плагин защищает от shift-click, drag & drop, double-click, манипуляций с хотбаром и офхендом, выброса предметов, дублирующих коммитов и изменений оффера после подтверждения. Требования: Minecraft 1.21.8, Paper, Java 21. Права: trademarket.trade, trademarket.admin, trademarket.reload, trademarket.tax.vip, trademarket.tax.admin.'},
+      en:{title:'JefTrade',description:'JefTrade is an advanced and secure player-to-player trading system for Paper 1.21.8. It provides a modern trading GUI with item, currency and experience trading, multi-stage confirmation, anti-scam protection and a flexible API for integrations. Features include a modern trading GUI, item trading with full ItemStack data, configurable currency support, experience trading, two-step trade confirmation with a countdown, anti-dupe and anti-scam protection, configurable trading distance, trade taxes, inventory space validation, a transaction journal, compensation/rollback protection, a developer API, optional Discord webhook notifications, customizable messages and GUI, and asynchronous transaction logging. Trading follows a multi-stage flow: EDITING → READY → CONFIRMING → COMMITTING → COMPLETED, where any offer change resets the ready state and everything is revalidated before the final transaction. The plugin protects against shift-click, drag & drop, double-click, hotbar and offhand manipulation, item dropping, duplicate transaction commits and offer changes after confirmation. Requirements: Minecraft 1.21.8, Paper, Java 21. Permissions: trademarket.trade, trademarket.admin, trademarket.reload, trademarket.tax.vip, trademarket.tax.admin.'}
+    },
+    jefcoins:{
+      image:'src/JefCoins.png',code:'https://github.com/Jefoze/JefCoins',status:null,
+      ru:{title:'JefCoins',description:'JefCoins — это экономический и банковский плагин для Paper 1.21.6+ и Java 21. Он предоставляет графический банк, переводы между игроками, поддержку офлайн-игроков, историю транзакций, постоянные уведомления, Title-сообщения, интеграцию с PlaceholderAPI и Vault, хранение в SQLite/MySQL и административные инструменты экономики. Особенности: точная работа с деньгами до двух знаков, общий баланс across worlds, переводы между игроками и известным офлайн-игрокам, опциональные сообщения о переводах, пагинированная история транзакций, постоянные уведомления о полученных переводах, Title-уведомления, настраиваемые лимиты, кулдауны и таймауты ввода, проверки прав для команд и GUI, защита от дублей через UUID operation ID, SQLite и MySQL, автоматическое расширение PlaceholderAPI, Vault-адаптер, нативный асинхронный API, настраиваемый GUI, сообщения, форматирование, локаль, Titles и настройки БД. Игровые команды: /coins menu, /coins balance, /coins transfer, /coins history, /coins received (алиасы /coin, /c). Админ-команды: /jc balance, /jc give, /jc take, /jc set, /jc history, /jc audit, /jc rollback, /jc freeze, /jc unfreeze, /jc reload. Финансовые изменения используют SQL-транзакции и уникальные operation ID — повторное использование ID не двигает деньги дважды; кэш обновляется после коммита; уведомления работают по модели at-least-once. API: EconomyService через Bukkit ServicesManager, суммы в сотых долях монеты (100L = 1.00 Coins). Требования: Java 21, Paper 1.21.6+, SQLite (по умолчанию), опционально Vault, PlaceholderAPI, MySQL 8+. Spigot и Folia не поддерживаются. Сборка: ./gradlew clean build, выход build/libs/JefCoins-1.1.0.jar.'},
+      en:{title:'JefCoins',description:'JefCoins is an economy and banking plugin for Paper 1.21.6+ and Java 21. It provides a graphical bank, player-to-player transfers, offline-player support, transaction history, persistent notifications, Title messages, PlaceholderAPI and Vault integration, SQLite/MySQL storage and administrative economy tools. Features: exact money handling with two decimal places, shared player balances across worlds, player-to-player transfers, transfers to known offline players, optional transfer messages, paginated transaction history, persistent received-transfer notifications, Title notifications, configurable transfer limits, cooldowns and input timeouts, permission checks for commands and GUI, duplicate-operation protection via UUID operation IDs, SQLite and MySQL storage, automatic PlaceholderAPI expansion, Vault economy adapter, native asynchronous API, configurable GUI, messages, formatting, locale, Titles and database settings. Player commands: /coins menu, /coins balance, /coins transfer, /coins history, /coins received (aliases /coin, /c). Admin commands: /jc balance, /jc give, /jc take, /jc set, /jc history, /jc audit, /jc rollback, /jc freeze, /jc unfreeze, /jc reload. Financial changes use SQL transactions and unique operation IDs — reusing the same ID does not move money twice; the cache is updated after commit; notifications use an at-least-once delivery model. API: EconomyService via Bukkit ServicesManager, amounts in hundredths of a Coin (100L = 1.00 Coins). Requirements: Java 21, Paper 1.21.6+, SQLite (default), optionally Vault, PlaceholderAPI, MySQL 8+. Spigot and Folia are not supported. Build: ./gradlew clean build, output build/libs/JefCoins-1.1.0.jar.'}
+    },
+    jefcases:{
+      image:'src/JefCases.png',code:null,status:{ru:'В реализации',en:'In development'},
+      ru:{title:'JefCases',description:'JefCases задуман как полноценная система открытия кейсов с современным интерфейсом в стиле сундука, несколькими совершенно разными анимациями и интерактивными открытиями. Колесо фортуны, лента наград, слот-машина, охота за наградой и мини-игра с выбором ячейки — каждое открытие превращается в отдельное событие. Внутри предусмотрены награды разной редкости: от обычных предметов до привилегий, валюты и специальных призов. Визуальные эффекты и анимация дополняют открытие, а сам результат определяется сервером, чтобы оформление не влияло на честность выпадения. Проект находится в разработке. Это не просто очередное меню с кнопкой «Открыть» — цель JefCases сделать открытие кейсов запоминающейся частью игрового процесса. Система реализуется через ресурспак — без установки модов на клиент.'},
+      en:{title:'JefCases',description:'JefCases is designed as a complete case-opening system with a modern chest-style interface, several completely different animations and interactive openings. Wheel of fortune, reward reel, slot machine, reward hunt and a cell-picking mini-game — each opening becomes its own event. Rewards of different rarities are included: from ordinary items to privileges, currency and special prizes. Visual effects and animation complement the opening, and the result is determined by the server so the presentation does not affect fairness. The project is in development. It is not just another menu with an “Open” button — the goal of JefCases is to make case opening a memorable part of gameplay. The system is implemented via a resource pack — no client-side mods required.'}
+    }
+  };
+  function openProject(id){
+    var item=PROJECTS[id];if(!item)return;
+    currentProjectId=id;
+    var copy=item[cur.lang]||item.ru;
+    projectTitle.textContent=copy.title;
+    projectDescription.textContent=copy.description;
+    projectImage.src=item.image;
+    projectImage.alt=copy.title;
+    projectStatus.hidden=!item.status;
+    projectStatus.textContent=item.status?(item.status[cur.lang]||item.status.ru):'';
+    if(item.code){projectCode.hidden=false;projectCode.href=item.code;}else{projectCode.hidden=true;projectCode.removeAttribute('href');}
+    projectCode.textContent=t('projects.code');
+    projectBack.textContent=t('projects.back');
+    if(projectDialog.showModal)projectDialog.showModal();else projectDialog.setAttribute('open','');
+  }
+  document.querySelectorAll('.project-more').forEach(function(button){
+    button.addEventListener('click',function(){openProject(button.dataset.project)});
+  });
+  function closeProject(){
+    if(projectDialog.open&&typeof projectDialog.close==='function')projectDialog.close();
+    else projectDialog.removeAttribute('open');
+    currentProjectId=null;
+  }
+  projectClose.addEventListener('click',closeProject);
+  projectBack.addEventListener('click',closeProject);
+  projectDialog.addEventListener('click',function(e){if(e.target===projectDialog)closeProject()});
+
+    /* ---------- mobile menu ---------- */
   function setMenu(open){navEl.classList.toggle('open',open);burger.setAttribute('aria-expanded',open?'true':'false')}
   burger.addEventListener('click',function(){setMenu(!navEl.classList.contains('open'))});
   navEl.addEventListener('click',function(e){if(e.target.closest('a'))setMenu(false)});
   document.addEventListener('click',function(e){if(navEl.classList.contains('open')&&!e.target.closest('header'))setMenu(false)});
-  addEventListener('keydown',function(e){if(e.key==='Escape')setMenu(false)});
+  addEventListener('keydown',function(e){if(e.key==='Escape'){setMenu(false);closeProject()}});
   addEventListener('resize',function(){if(innerWidth>820)setMenu(false)});
 
   /* ---------- scroll reveals + counters ---------- */
