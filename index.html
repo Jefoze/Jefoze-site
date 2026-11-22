@@ -32,7 +32,7 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
 .project-dialog .dlg-head{padding-bottom:14px}
 .project-dialog .dlg-head h3{font-family:"Unbounded",sans-serif}
 .project-dialog-body{padding:0 24px 26px}
-.project-dialog-image{width:100%;max-height:360px;object-fit:cover;border-radius:16px;background:var(--tint);border:1px solid var(--line); display:block;}
+.project-dialog-image{width:100%;max-height:260px;object-fit:cover;border-radius:16px;background:var(--tint);border:1px solid var(--line); display:block;}
 .project-dialog-desc{color:var(--ink-soft);margin:18px 0 22px;white-space:pre-line}
 .project-dialog-actions{display:flex;gap:12px;flex-wrap:wrap}
 .project-dialog-actions .btn{font-size:15px;padding:12px 20px;text-decoration:none;text-align:center}
@@ -41,7 +41,7 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
 .project-dialog-actions .back-btn:hover{background:var(--green-softer)}
 .project-status{display:inline-flex;margin:0 0 10px;padding:5px 11px;border-radius:999px;background:var(--gold-soft);color:var(--gold-ink);font-size:13px;font-weight:800}
 .project-status[hidden]{display:none!important}
-@media(max-width:560px){.project-shot{height:184px}.project-dialog{max-height:92vh}.project-dialog-body{padding:0 18px 22px}.project-dialog-actions{display:grid}.project-dialog-actions .btn{width:100%}}
+@media(max-width:560px){.project-dialog-image{max-height:170px}.project-shot{height:184px}.project-dialog{max-height:92vh}.project-dialog-body{padding:0 18px 22px}.project-dialog-actions{display:grid}.project-dialog-actions .btn{width:100%}}
 </style>
 
 </head>
@@ -150,14 +150,14 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
           <div class="tags"><span data-i18n="tag.economy">Экономика</span><span>Paper 1.21.6+</span><a href="https://github.com/Jefoze/JefCoins" target="_blank" rel="noopener" data-i18n="tag.open">Открытый код</a></div>
           <button type="button" class="btn project-more" data-project="jefcoins" data-i18n="projects.more">Подробнее</button>
         </article>
-        <article class="card project-card project-in-progress">
+        <article class="card project-card">
           <div class="project-shot"><img src="src/JefCases.png" alt="Скриншот интерфейса JefCases" loading="lazy"></div>
-          <h3>JefCases</h3><p data-i18n="proj.cases">JefCases — система открытия кейсов с разными анимациями и наградами. Проект находится в разработке.</p>
-          <div class="tags"><span data-i18n="tag.cases">Кейсы</span><span class="r" data-i18n="tag.progress">В реализации</span></div>
+          <h3>JefCases</h3><p data-i18n="proj.cases">JefCases — система открытия кейсов с разными анимациями и наградами.</p>
+          <div class="tags"><span data-i18n="tag.cases">Кейсы</span><span class="r" data-i18n="tag.release">Release</span></div>
           <button type="button" class="btn project-more" data-project="jefcases" data-i18n="projects.more">Подробнее</button>
         </article>
       </div>
-      <p class="note" data-rv data-i18n-html="projects.note"><b>Почему GribCam и GCosmetics закрыты.</b> Эти плагины сделаны на заказ, и заказчик попросил сохранить исходный код конфиденциальным. Код JefTrade и JefCoins открыт — его можно посмотреть на <a href="https://github.com/Jefoze" target="_blank" rel="noopener">GitHub</a>.</p>
+      <p class="note" data-rv data-i18n-html="projects.note"><b>Почему GribCam и GCosmetics закрыты.</b> Эти плагины сделаны на заказ, и заказчик попросил сохранить исходный код конфиденциальным. Код JefCases, JefTrade и JefCoins открыт — его можно посмотреть на <a href="https://github.com/Jefoze" target="_blank" rel="noopener">GitHub</a>.</p>
     </div>
   </section>
 
@@ -196,6 +196,7 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
     <p class="project-dialog-desc" id="project-description"></p>
     <div class="project-dialog-actions">
       <a class="btn" id="project-code" href="#" target="_blank" rel="noopener" hidden>Открыть исходный код</a>
+      <a class="btn" id="project-bm" href="#" target="_blank" rel="noopener" hidden>Black Minecraft</a>
       <button type="button" class="btn back-btn" id="project-back">Назад</button>
     </div>
   </div>
@@ -238,6 +239,7 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
       projectDescription=document.getElementById('project-description'),
       projectStatus=document.getElementById('project-status'),
       projectCode=document.getElementById('project-code'),
+      projectBm=document.getElementById('project-bm'),
       projectBack=document.getElementById('project-back'),
       currentProjectId=null;
 
@@ -260,15 +262,15 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
       'about.p2':'Работаю один и отвечаю за результат целиком: от обсуждения задачи до финальной проверки. Могу уделять заказам 12–16 часов в неделю.',
       'about.plugins':'плагинов','about.s1':'уровень разработчика','about.s2':'в портфолио','about.s3':'свободно в неделю',
       'projects.h2':'Мои проекты','projects.sub':'Пять проектов для Minecraft-серверов.',
-      'projects.more':'Подробнее','projects.back':'Назад','projects.code':'Открыть исходный код',
-      'proj.cases':'JefCases — система открытия кейсов с разными анимациями и наградами. Проект находится в разработке.',
-      'tag.cases':'Кейсы','tag.progress':'В реализации',
+      'projects.more':'Подробнее','projects.back':'Назад','projects.code':'Открыть исходный код','projects.bm':'Black Minecraft',
+      'proj.cases':'JefCases — система открытия кейсов с разными анимациями и наградами.',
+      'tag.cases':'Кейсы','tag.release':'Release',
       'proj.gcam':'GribCam — плагин для управления игровыми камерами через компьютер и наблюдения за миром Minecraft.',
       'proj.gcos':'GCosmetics — плагин с косметическими предметами, которые игроки могут носить на голове, спине и руке.',
       'proj.trade':'JefTrade для Paper 1.21.8 — плагин безопасного обмена между игроками предметами, валютой и опытом с защитой от дюпов и обмана.',
       'proj.coins':'JefCoins для Paper 1.21.6+ — плагин экономики с банковским меню, переводами между игроками и историей транзакций.',
       'tag.cameras':'Камеры','tag.closed':'Закрытый код','tag.cosmetics':'Косметика','tag.currency':'Валюта','tag.economy':'Экономика','tag.open':'Открытый код',
-      'projects.note':'<b>Почему GribCam и GCosmetics закрыты.</b> Эти плагины сделаны на заказ, и заказчик попросил сохранить исходный код конфиденциальным. Код JefTrade и JefCoins открыт — его можно посмотреть на <a href="https://github.com/Jefoze" target="_blank" rel="noopener">GitHub</a>.',
+      'projects.note':'<b>Почему GribCam и GCosmetics закрыты.</b> Эти плагины сделаны на заказ, и заказчик попросил сохранить исходный код конфиденциальным. Код JefCases, JefTrade и JefCoins открыт — его можно посмотреть на <a href="https://github.com/Jefoze" target="_blank" rel="noopener">GitHub</a>.',
       'prices.h2':'Услуги и цены','prices.sub':'Итоговая цена зависит от задачи и сложности плагина. Называю её до начала работы.',
       'price.setup':'Установка и настройка','price.setup1':'Установлю плагин и полностью настрою его под ваш сервер.','price.setup2':'Цена зависит от объёма настройки.',
       'price.dev':'Разработка плагина','price.dev1':'Напишу плагин под вашу идею — от небольшой утилиты до сложной системы.','price.dev2':'Цена зависит от сложности плагина.',
@@ -298,15 +300,15 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
       'about.p2':'I work alone and own the result from start to finish: from discussing the task to final testing. I can spend 12–16 hours a week on orders.',
       'about.plugins':'plugins','about.s1':'developer level','about.s2':'in portfolio','about.s3':'free per week',
       'projects.h2':'My projects','projects.sub':'Five projects for Minecraft servers.',
-      'projects.more':'Details','projects.back':'Back','projects.code':'View source code',
-      'proj.cases':'JefCases is a case-opening system with different animations and rewards. The project is currently in development.',
-      'tag.cases':'Cases','tag.progress':'In development',
+      'projects.more':'Details','projects.back':'Back','projects.code':'View source code','projects.bm':'Black Minecraft',
+      'proj.cases':'JefCases is a case-opening system with different animations and rewards.',
+      'tag.cases':'Cases','tag.release':'Release',
       'proj.gcam':'GribCam is a plugin for controlling in-game cameras from a computer and viewing the Minecraft world.',
       'proj.gcos':'GCosmetics is a plugin with cosmetic items players can wear on their head, back or hand.',
       'proj.trade':'JefTrade for Paper 1.21.8 is a secure player-to-player trading plugin for items, currency and experience, with anti-dupe and anti-scam protection.',
       'proj.coins':'JefCoins for Paper 1.21.6+ is an economy plugin with a graphical bank, player transfers and transaction history.',
       'tag.cameras':'Cameras','tag.closed':'Closed source','tag.cosmetics':'Cosmetics','tag.currency':'Currency','tag.economy':'Economy','tag.open':'Open source',
-      'projects.note':'<b>Why GribCam and GCosmetics are closed.</b> These plugins were commissioned, and the client asked to keep the source code private. The code of JefTrade and JefCoins is open — you can browse it on <a href="https://github.com/Jefoze" target="_blank" rel="noopener">GitHub</a>.',
+      'projects.note':'<b>Why GribCam and GCosmetics are closed.</b> These plugins were commissioned, and the client asked to keep the source code private. The code of JefCases, JefTrade and JefCoins is open — you can browse it on <a href="https://github.com/Jefoze" target="_blank" rel="noopener">GitHub</a>.',
       'prices.h2':'Services & pricing','prices.sub':"The final price depends on the task and the plugin's complexity. I quote it before any work starts.",
       'price.setup':'Setup & configuration','price.setup1':"I'll install a plugin and fully configure it for your server.",'price.setup2':'Price depends on the amount of configuration.',
       'price.dev':'Plugin development','price.dev1':"I'll write a plugin for your idea — from a small utility to a complex system.",'price.dev2':"Price depends on the plugin's complexity.",
@@ -390,19 +392,19 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
       en:{title:'GCosmetics',description:'GCosmetics is a cosmetics plugin for Paper 1.21.x and Java 21 that adds visual decorations without affecting gameplay. Players can use hats, hand-held items (staff, magic staff, trident and others), backpacks and other cosmetic elements displayed on the character model and in the inventory. It includes cosmetic categories, selection and preview menus, permission and currency binding, persistence of selected items between sessions, and support for custom models and textures via resource pack. The system checks permissions and slots, prevents equipment conflicts and lets administrators grant and revoke cosmetics. The plugin integrates with the server economy and permissions, making character customization available without client mods.'}
     },
     jeftrade:{
-      image:'src/JefTrade.png',code:'https://github.com/Jefoze/JefTrade',status:null,
-      ru:{title:'JefTrade',description:'JefTrade — это продвинутая и безопасная система обмена между игроками для Paper 1.21.8. Плагин предоставляет современный GUI-интерфейс для торговли с обменом предметами, валютой и опытом, многоступенчатой системой подтверждения, защитой от мошенничества и гибким API для интеграций. Внутри реализованы: современное меню торговли, обмен предметами с полными данными ItemStack, настраиваемая поддержка валют, обмен опытом, двухэтапное подтверждение сделки с таймером обратного отсчёта, защита от дюпов и мошенничества, настраиваемая дистанция торговли, налоги на сделки, проверка свободного места в инвентаре, журнал транзакций, компенсация/откат при сбоях, API для разработчиков, опциональные уведомления в Discord через webhook, кастомизируемые сообщения и GUI, асинхронное логирование. Торговля построена вокруг многоступенчатой системы: EDITING → READY → CONFIRMING → COMMITTING → COMPLETED, где любое изменение предложения сбрасывает состояние готовности, а перед финальной транзакцией всё перепроверяется. Плагин защищает от shift-click, drag & drop, double-click, манипуляций с хотбаром и офхендом, выброса предметов, дублирующих коммитов и изменений оффера после подтверждения. Требования: Minecraft 1.21.8, Paper, Java 21. Права: trademarket.trade, trademarket.admin, trademarket.reload, trademarket.tax.vip, trademarket.tax.admin.'},
-      en:{title:'JefTrade',description:'JefTrade is an advanced and secure player-to-player trading system for Paper 1.21.8. It provides a modern trading GUI with item, currency and experience trading, multi-stage confirmation, anti-scam protection and a flexible API for integrations. Features include a modern trading GUI, item trading with full ItemStack data, configurable currency support, experience trading, two-step trade confirmation with a countdown, anti-dupe and anti-scam protection, configurable trading distance, trade taxes, inventory space validation, a transaction journal, compensation/rollback protection, a developer API, optional Discord webhook notifications, customizable messages and GUI, and asynchronous transaction logging. Trading follows a multi-stage flow: EDITING → READY → CONFIRMING → COMMITTING → COMPLETED, where any offer change resets the ready state and everything is revalidated before the final transaction. The plugin protects against shift-click, drag & drop, double-click, hotbar and offhand manipulation, item dropping, duplicate transaction commits and offer changes after confirmation. Requirements: Minecraft 1.21.8, Paper, Java 21. Permissions: trademarket.trade, trademarket.admin, trademarket.reload, trademarket.tax.vip, trademarket.tax.admin.'}
+      image:'src/JefTrade.png',code:'https://github.com/Jefoze/JefTrade',bm:'https://black-minecraft.com/resources/jeftrade-bezopasnyj-obmen-mezhdu-igrokami-paper-1-21-8-gui-anti-dupe-economy.11723/',status:null,
+      ru:{title:'JefTrade',description:'JefTrade — безопасный обмен между игроками для Paper 1.21.8 с современным GUI. Обмен предметами, валютой и опытом, двухэтапное подтверждение с таймером, защита от дюпов и мошенничества, налоги, журнал транзакций и API для разработчиков. Требуется Java 21.'},
+      en:{title:'JefTrade',description:'JefTrade is a secure player-to-player trading system for Paper 1.21.8 with a modern GUI. Trade items, currency and experience with two-step confirmation and a countdown, anti-dupe and anti-scam protection, trade taxes, a transaction journal and a developer API. Requires Java 21.'}
     },
     jefcoins:{
-      image:'src/JefCoins.png',code:'https://github.com/Jefoze/JefCoins',status:null,
-      ru:{title:'JefCoins',description:'JefCoins — экономический и банковский плагин для Paper 1.21.6+ и Java 21. Он добавляет удобное банковское GUI, переводы между игроками (в том числе офлайн), историю операций и уведомления о поступлениях. Поддерживаются SQLite и MySQL, интеграции с Vault и PlaceholderAPI, настраиваемые лимиты и права доступа. Для администраторов доступны команды управления балансами, аудит, откат операций и блокировка переводов. Финансовые операции защищены от повторного выполнения и обрабатываются через SQL-транзакции. Требования: Java 21 и Paper 1.21.6+; Spigot и Folia не поддерживаются.'},
-      en:{title:'JefCoins',description:'JefCoins is an economy and banking plugin for Paper 1.21.6+ and Java 21. It adds a bank GUI, player transfers (including offline players), transaction history and deposit notifications. It supports SQLite/MySQL, Vault and PlaceholderAPI, configurable limits and permission checks. Admin tools include balance management, transaction audits, rollbacks and transfer freezes. Financial operations use SQL transactions and protection against duplicate execution. Requirements: Java 21 and Paper 1.21.6+; Spigot and Folia are not supported.'}
+      image:'src/JefCoins.png',code:'https://github.com/Jefoze/JefCoins',bm:'https://black-minecraft.com/resources/jefcoins-sovremennaja-sistema-ehkonomiki-dlja-paper.11744/',status:null,
+      ru:{title:'JefCoins',description:'JefCoins — плагин экономики для Paper 1.21.6+ с банковским GUI. Переводы между игроками (в том числе офлайн), история операций, SQLite и MySQL, интеграции с Vault и PlaceholderAPI, админ-инструменты и защита от повторного выполнения операций. Требуется Java 21; Spigot и Folia не поддерживаются.'},
+      en:{title:'JefCoins',description:'JefCoins is an economy plugin for Paper 1.21.6+ with a bank GUI. Player transfers (including offline), transaction history, SQLite/MySQL, Vault and PlaceholderAPI support, admin tools and protection against duplicate operations. Requires Java 21; Spigot and Folia are not supported.'}
     },
     jefcases:{
-      image:'src/JefCases.png',code:null,status:{ru:'В реализации',en:'In development'},
-      ru:{title:'JefCases',description:'JefCases задуман как полноценная система открытия кейсов с новым интерфейсом БЕЗ ИСПОЛЬЗОВАНИЯ СУНДУКОВ! Интерфейс делается через плагин, то что вы видите на картинке — ожидаемый интерфейс плагина. Внутри предусмотрены награды разной редкости: от обычных предметов до привилегий, валюты и специальных призов. Система включает несколько совершенно разных анимаций и интерактивных открытий: колесо фортуны, лента наград, слот-машина, охота за наградой и мини-игра с выбором ячейки — каждое открытие превращается в отдельное событие. Визуальные эффекты и анимация дополняют открытие, а сам результат определяется сервером, чтобы оформление не влияло на честность выпадения. Проект находится в разработке. Это не просто очередное меню с кнопкой «Открыть» — цель JefCases сделать открытие кейсов запоминающейся частью игрового процесса. Система реализуется через ресурспак — без установки модов на клиент.'},
-      en:{title:'JefCases',description:'JefCases is designed as a complete case-opening system with a new interface WITHOUT USING CHESTS! The interface is built via the plugin — what you see in the image is the expected plugin interface. Rewards of different rarities are included: from ordinary items to privileges, currency and special prizes. The system features several completely different animations and interactive openings: wheel of fortune, reward reel, slot machine, reward hunt and a cell-picking mini-game — each opening becomes its own event. Visual effects and animation complement the opening, and the result is determined by the server so the presentation does not affect fairness. The project is in development. It is not just another menu with an “Open” button — the goal of JefCases is to make case opening a memorable part of gameplay. The system is implemented via a resource pack — no client-side mods required.'}
+      image:'src/JefCases.png',code:'https://github.com/Jefoze/JefCases',bm:'https://black-minecraft.com/resources/jefcases-unikalnaja-sistema-kejsov-s-sovremennym-interfejsom.12198/',status:{ru:'Release',en:'Release'},
+      ru:{title:'JefCases',description:'JefCases — система открытия кейсов для Paper с современным интерфейсом, без использования сундуков. Несколько разных анимаций (колесо фортуны, слот-машина, лента наград), награды разной редкости: предметы, привилегии, валюта. Результат определяется сервером, оформление работает через ресурспак — моды на клиенте не нужны.'},
+      en:{title:'JefCases',description:'JefCases is a case-opening system for Paper with a modern interface and no chests. It has several different animations (wheel of fortune, slot machine, reward reel) and rewards of different rarities: items, privileges and currency. The result is decided by the server, and the visuals use a resource pack — no client-side mods needed.'}
     }
   };
   function openProject(id){
@@ -424,7 +426,9 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
     projectStatus.hidden=!item.status;
     projectStatus.textContent=item.status?(item.status[cur.lang]||item.status.ru):'';
     if(item.code){projectCode.hidden=false;projectCode.href=item.code;}else{projectCode.hidden=true;projectCode.removeAttribute('href');}
+    if(item.bm){projectBm.hidden=false;projectBm.href=item.bm;}else{projectBm.hidden=true;projectBm.removeAttribute('href');}
     projectCode.textContent=t('projects.code');
+    projectBm.textContent=t('projects.bm');
     projectBack.textContent=t('projects.back');
     if(projectDialog.showModal)projectDialog.showModal();else projectDialog.setAttribute('open','');
   }
