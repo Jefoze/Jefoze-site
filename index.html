@@ -32,10 +32,11 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
 .project-dialog .dlg-head{padding-bottom:14px}
 .project-dialog .dlg-head h3{font-family:"Unbounded",sans-serif}
 .project-dialog-body{padding:0 24px 26px}
-.project-dialog-image{width:100%;max-height:360px;object-fit:cover;border-radius:16px;background:var(--tint);border:1px solid var(--line)}
+.project-dialog-image{width:100%;max-height:360px;object-fit:cover;border-radius:16px;background:var(--tint);border:1px solid var(--line); display:block;}
 .project-dialog-desc{color:var(--ink-soft);margin:18px 0 22px;white-space:pre-line}
 .project-dialog-actions{display:flex;gap:12px;flex-wrap:wrap}
 .project-dialog-actions .btn{font-size:15px;padding:12px 20px;text-decoration:none;text-align:center}
+.project-dialog-actions .btn[hidden]{display:none!important}
 .project-dialog-actions .back-btn{background:var(--bg-soft);color:var(--ink);border:1px solid var(--line);box-shadow:none}
 .project-dialog-actions .back-btn:hover{background:var(--green-softer)}
 .project-status{display:inline-flex;margin:0 0 10px;padding:5px 11px;border-radius:999px;background:var(--gold-soft);color:var(--gold-ink);font-size:13px;font-weight:800}
@@ -190,7 +191,7 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
   <div class="dlg-head"><h3 id="project-dialog-title">Проект</h3><button type="button" class="x" id="project-close" aria-label="Закрыть">×</button></div>
   <div class="project-dialog-body">
     <span class="project-status" id="project-status" hidden></span>
-    <img class="project-dialog-image" id="project-image" src="" alt="">
+    <img class="project-dialog-image" id="project-image" src="src/JefCases.png" alt="">
     <p class="project-dialog-desc" id="project-description"></p>
     <div class="project-dialog-actions">
       <a class="btn" id="project-code" href="#" target="_blank" rel="noopener" hidden>Открыть исходный код</a>
@@ -399,8 +400,8 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
     },
     jefcases:{
       image:'src/JefCases.png',code:null,status:{ru:'В реализации',en:'In development'},
-      ru:{title:'JefCases',description:'JefCases задуман как полноценная система открытия кейсов с современным интерфейсом в стиле сундука, несколькими совершенно разными анимациями и интерактивными открытиями. Колесо фортуны, лента наград, слот-машина, охота за наградой и мини-игра с выбором ячейки — каждое открытие превращается в отдельное событие. Внутри предусмотрены награды разной редкости: от обычных предметов до привилегий, валюты и специальных призов. Визуальные эффекты и анимация дополняют открытие, а сам результат определяется сервером, чтобы оформление не влияло на честность выпадения. Проект находится в разработке. Это не просто очередное меню с кнопкой «Открыть» — цель JefCases сделать открытие кейсов запоминающейся частью игрового процесса. Система реализуется через ресурспак — без установки модов на клиент.'},
-      en:{title:'JefCases',description:'JefCases is designed as a complete case-opening system with a modern chest-style interface, several completely different animations and interactive openings. Wheel of fortune, reward reel, slot machine, reward hunt and a cell-picking mini-game — each opening becomes its own event. Rewards of different rarities are included: from ordinary items to privileges, currency and special prizes. Visual effects and animation complement the opening, and the result is determined by the server so the presentation does not affect fairness. The project is in development. It is not just another menu with an “Open” button — the goal of JefCases is to make case opening a memorable part of gameplay. The system is implemented via a resource pack — no client-side mods required.'}
+      ru:{title:'JefCases',description:'JefCases задуман как полноценная система открытия кейсов с новым интерфейсом БЕЗ ИСПОЛЬЗОВАНИЯ СУНДУКОВ! Интерфейс делается через плагин, то что вы видите на картинке — ожидаемый интерфейс плагина. Внутри предусмотрены награды разной редкости: от обычных предметов до привилегий, валюты и специальных призов. Система включает несколько совершенно разных анимаций и интерактивных открытий: колесо фортуны, лента наград, слот-машина, охота за наградой и мини-игра с выбором ячейки — каждое открытие превращается в отдельное событие. Визуальные эффекты и анимация дополняют открытие, а сам результат определяется сервером, чтобы оформление не влияло на честность выпадения. Проект находится в разработке. Это не просто очередное меню с кнопкой «Открыть» — цель JefCases сделать открытие кейсов запоминающейся частью игрового процесса. Система реализуется через ресурспак — без установки модов на клиент.'},
+      en:{title:'JefCases',description:'JefCases is designed as a complete case-opening system with a new interface WITHOUT USING CHESTS! The interface is built via the plugin — what you see in the image is the expected plugin interface. Rewards of different rarities are included: from ordinary items to privileges, currency and special prizes. The system features several completely different animations and interactive openings: wheel of fortune, reward reel, slot machine, reward hunt and a cell-picking mini-game — each opening becomes its own event. Visual effects and animation complement the opening, and the result is determined by the server so the presentation does not affect fairness. The project is in development. It is not just another menu with an “Open” button — the goal of JefCases is to make case opening a memorable part of gameplay. The system is implemented via a resource pack — no client-side mods required.'}
     }
   };
   function openProject(id){
