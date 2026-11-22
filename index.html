@@ -411,8 +411,16 @@ try{if(localStorage.getItem('jz-lang')==='en')document.documentElement.lang='en'
     var copy=item[cur.lang]||item.ru;
     projectTitle.textContent=copy.title;
     projectDescription.textContent=copy.description;
-    projectImage.src=item.image;
+    /* Reuse the exact image URL already loaded by the matching project card.
+       This avoids broken paths in the details dialog when the page is hosted
+       from a nested route or the asset URL is resolved differently. */
+    var cardButton=document.querySelector('.project-more[data-project="'+id+'"]');
+    var cardImage=cardButton&&cardButton.closest('.project-card')
+      ?cardButton.closest('.project-card').querySelector('.project-shot img')
+      :null;
+    projectImage.src=(cardImage&&(cardImage.currentSrc||cardImage.src))||item.image;
     projectImage.alt=copy.title;
+    projectImage.loading='eager';
     projectStatus.hidden=!item.status;
     projectStatus.textContent=item.status?(item.status[cur.lang]||item.status.ru):'';
     if(item.code){projectCode.hidden=false;projectCode.href=item.code;}else{projectCode.hidden=true;projectCode.removeAttribute('href');}
